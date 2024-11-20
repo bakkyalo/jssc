@@ -1,0 +1,50 @@
+\usepackage{subfiles}
+\usepackage{amsmath}
+\usepackage{amsfonts}       % \mathbb{}
+\usepackage{fancyhdr}      % \pagestyle{fancy}
+
+\usepackage{tikz}   % tikz
+% \usepackage{pgfplots}
+
+\usepackage{hyperref}     % \hypersetup
+
+% 目次を subsubsection まで書く
+\setcounter{tocdepth}{3}
+
+% header, footer
+\pagestyle{fancy}
+\fancyhead[OL]{}            % Odd Left
+\fancyhead[OR]{ \leftmark } % Odd Right
+
+\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+
+% enumerate の番号の振り方を変える
+\renewcommand{\labelenumi}{[\arabic{enumi}]}
+\renewcommand{\labelenumii}{[\arabic{enumi}-\arabic{enumii}]}
+
+
+
+% ハイパーリンク設定
+\hypersetup{
+  % しおりの設定
+  % bookmarks = true,			% しおりを作る
+  bookmarksnumbered = true,	% しおりのラベルを作る
+  bookmarksopen = true,		% しおりのツリーを開く
+  bookmarksopenlevel = 4,    	% しおりの深さ
+  bookmarkstype = toc,
+  % リンクカラーの設定
+  colorlinks = false,				% カラーリンク
+  anchorcolor = brack,			% アンカーテキストの色指定（デフォルトはblack）
+  linkcolor = red,				% 内部参照リンク用のカラー
+  linkbordercolor = {1 0 0}, 		% RGBリンクを囲むボックスの色（デフォルトは1 0 0）
+  citecolor = green,				% 文献参照用リンク用のカラー 
+  filecolor = magenta,			% ローカルファイルリンクの色指定（デフォルトはmagenta）
+  urlcolor = magenta,			% 外部参照しているurlの色（デフォルトはmagenta）
+  % PDFプロファイルの設定
+  pdfborder={1 0 0},			% RGBリンクを囲むボックスの色（デフォルトは1 0 0）
+  pdftitle={},					% pdfのタイトル
+  pdfauthor={},					% pdfの著者名
+  pdfsubject={},				% pdfのサブタイトル
+  pdfkeywords = {},				% pdfのキーワード
+  % pdfpagemode = UseThumbs	% サムネイル表示
+}
