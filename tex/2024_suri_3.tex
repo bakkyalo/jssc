@@ -1,0 +1,172 @@
+\documentclass[./main.tex]{subfiles}
+
+
+\begin{document}
+    \subsubsection*{問3}
+    \addcontentsline{toc}{subsubsection}{問3}
+    \markboth{2024年 統計数理 問3}{2024年 統計数理 問3}
+
+    \begin{enumerate}
+        % Q1
+        \item $S_n$ は二項分布に従い、$E[ S_n ] = n \theta$, $V[S_n] = n \theta (1 - \theta)$ である。
+        % Q2
+        \item 観測値 $x_1, x_2, \dots, x_n$ が与えられた時の尤度関数 $L(\theta)$ は
+        \begin{align*}
+            L(\theta)
+                = \prod_{i=1}^{n} \theta^{x_i} (1 - \theta)^{1 - x_i}
+                = \theta^{\sum_{i=1}^{n} x_i} (1 - \theta)^{n -\sum_{i=1}^{n} x_i}
+        \end{align*}
+        したがって Fisher-Neyman の因子分解定理により、$S_n = \displaystyle \sum_{i=1}^n X_i$ は $\theta$ に対する十分統計量である。
+        $S_n$ の実現値を $s_n$ とすると、対数尤度 $\ell (\theta) = \log L(\theta)$ は
+        \begin{equation*}
+            \ell (\theta)
+                = s_n \log \theta + (n - s_n) \log (1-\theta)
+            \qquad
+            \therefore
+            \frac{\partial}{\partial \theta} \ell (\theta)
+                = \frac{s_n}{\theta} - \frac{n - s_n}{1 - \theta}
+        \end{equation*}
+        これを $0$ にする $\theta$ が最尤推定量であり、$\hat{\theta}_{ML} = \dfrac{S_n}{n}$.
+        % Q3
+        \item $E [T_n] = \alpha_n \cdot n\theta + \beta_n$, \ $V [T_n] = {\alpha_n}^2 \cdot n \theta (1-\theta)$ であるから,
+        \begin{align*}
+            \mathrm{MSE} [T_n] 
+                &= E [ (T_n - \theta)^2 ] 
+                    = ( E [ T_n] - \theta )^2 + V [T_n]\\
+                &= \left\{ (n \alpha_n \theta + \beta_n) - \theta  \right\}^2
+                    + n {\alpha_n}^2 \theta (1 - \theta)\\
+                &= \{ (n \alpha_n - 1)^2 - n {\alpha_n}^2 \} \theta^2
+                    + \{ 2\beta_n (n \alpha_n - 1) + n {\alpha_n}^2 \} \theta
+                    + {\beta_n}^2
+        \end{align*}
+        これは $\theta^2$, $\theta$ の係数が恒等的に $0$ となる時、かつその時に限り $\theta$ によらず一定となり、
+        この時 $\mathrm{MSE} [T_n] = {\beta_n}^2$ となる。
+        \begin{subequations}
+            \begin{align}
+                &(n \alpha_n - 1)^2 = n {\alpha_n}^2 \label{eq:2024-suri-3-mse-a}\\
+                &2 \beta_n (n \alpha_n - 1) = - n { \alpha_n}^2 \label{eq:2024-suri-3-mse-b}
+            \end{align}
+        \end{subequations}
+        を解くと $\alpha_n = \dfrac{1}{\sqrt{n} (\sqrt{n} \pm 1)}$, \ $\beta_n = \pm \dfrac{1}{2 (\sqrt{n} \pm 1)}$ (複号同順) \ となり、
+        $\mathrm{MSE} [T_n] = {\beta_n}^2$ が小さくなる方を選んで以下を得る。
+        \begin{equation*}
+            \alpha_n = \frac{1}{\sqrt{n} ( \sqrt{n} + 1)}, \
+                \beta_n = \frac{1}{2 (\sqrt{n} + 1)} \ 
+                \mbox{の時, } \mathrm{MSE} [L_n] \mbox{ は 最小値 } 
+                \frac{1}{4 ( \sqrt{n} + 1)^2} \mbox{をとる.}
+        \end{equation*}
+
+        \item $V [\hat{\theta}_{ML}] = \dfrac{1}{n^2} \cdot n \theta (1- \theta)$ より,
+        \begin{equation*}
+            \mathrm{MSE} [T_n] < V [\hat{\theta}_{ML}]
+            \ \iff \
+            \frac{1}{4 (\sqrt{n} + 1)^2} < \frac{1}{n} \theta (1 - \theta)
+            \ \iff \
+            \left( \theta - \frac{1}{2} \right)^2
+                < \frac{1}{4} - \frac{n}{ 4 (\sqrt{n} + 1)^2}
+        \end{equation*}
+        よって $\displaystyle \left| \theta - \frac{1}{2} \right| < \frac{\sqrt{ 2 \sqrt{n} + 1}}{2 (\sqrt{n} + 1) }$ を得る。\\
+        % 今回の設定において、$\hat{\theta}_{ML}$ は最良線形不偏推定量になっているが、$T_n$ は線形でも不偏でもない一方で、
+        $T_n$ はいま求めた範囲では $\hat{\theta}_{ML}$ と比して平均 2 乗誤差の観点で有利であることが分かる。
+        ただし、この範囲は $n$ の範囲によって狭まるので、適用できる場面は限定的であると考えられる。
+
+        
+    \end{enumerate}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    \subsubsection*{コメント}
+    ごめん、ちょっと何がしたいのか分からない。
+    \begin{enumerate}
+        % Q1
+        \item 「求めよ」と書いてあるので導出手順も書いた方が良いのでしょうけど、
+        二項分布は高校数学で習うので結果だけ書いてもバチは当たらないでしょう。
+        ただ、[3] で MSE をバイアス-バリアンスでコンポジションせずに計算しようとすると $E[{S_n}^2]$ を求める羽目になったりするので、
+        手順分からねぇ...という場合は一応確認しておきましょう。
+
+        \begin{itemize}
+            \item ベルヌーイ分布の期待値, 分散を求めて加法性を使う
+            \item 二項分布の確率質量関数から直接計算する
+            \item 二項分布の母関数を使う
+        \end{itemize}
+        などなど、やり方いっぱいです。
+
+        % Q2
+        \item 十分統計量といえば因子分解定理！であり、今回もそれでいいのですが、使わずにも直接定義を示すこともできます。
+        
+        以下、説明のために $X = (X_1, X_2, \dots, X_n)$, $x = (x_1, x_2, \dots, x_n)$ という記法をすることにします。
+        すると、今回は $S_n = s_n$ が与えられた時の $X = x$ の条件付き確率
+        \begin{equation}
+            P ( X = x \vert S_n = s_n)
+                = \frac{P(X = x, S_n = s_n)}{P(S_n = s_n)}
+                \label{eq:2024-suri-3-cond-prob}
+        \end{equation}
+        が $\theta$ に依存しないことがいえればよいですね。
+
+        $X$ が独立にベルヌーイ分布 $Ber(\theta)$ に従いますので、まず
+        \begin{equation*}
+            P(X = x) = \prod_{i=1}^{n} \theta^{x_i} (1 - \theta)^{1 - x_i}
+                = \theta^{\sum_{i=1}^n x_i}
+                    (1 - \theta)^{ n - \sum_{i=1}^n x_i}
+        \end{equation*}
+        が成り立ちます。
+        ここに条件 $S_n = s_n$ が追加されますと、$s_n = \sum_{i=1}^{n} x_i$ であるということですから
+        \begin{equation*}
+            P(X = x, S_n = s_n)
+                = \theta^{s_n}  (1 - \theta)^{n - s_n}
+        \end{equation*}
+        であることが分かります。
+        一方で、$S_n$ は二項分布 $B (n, \theta)$ に従いますので、
+        \begin{equation*}
+            P (S_n = s_n) = {}_{n} \mathrm{C}_{s_n} \theta^{s_n} (1 - \theta)^{n - s_n}
+        \end{equation*}
+        であるからして、式 \eqref{eq:2024-suri-3-cond-prob} は $1 / {}_n \mathrm{C}_{s_n}$ と、$\theta$ が現れない式になるという事です。
+
+        % Q3
+        \item バイアス-バリアンスでコンポジションを知っているかどうかで処理量がちょっと変わる... と思いきやそんなに変わらない、
+        その代わりに $E[ {S_n}^2]$ が必要になってくる、そんな問題です。
+
+        平均 2 乗誤差 $\mathrm{MSE} [T_n]$ を
+        \begin{equation*}
+            \mathrm{MSE} [T_n] 
+                = E [ (T_n - \theta)^2 ] 
+                    = ( E [ T_n] - \theta )^2 + V [T_n]
+        \end{equation*}
+        のようにバイアス項 $E [ (T_n - \theta)^2 ]$ と分散項 $V [T_n]$ に分ける操作を バイアス-バリアンスでコンポジション (bias-variance decomposition) と言います。
+        証明はそこまで難しくなく、実際やってみると
+        \begin{align*}
+            \mathrm{MSE} [T_n] 
+                &= E [ (T_n - \theta)^2 ] \\
+                &= E \left[ \left\{ (T_n - E[ T_n ]) - (\theta - E[ T_n]) \right\}^2 \right]
+        \end{align*}
+        ここで 2 乗を展開しますが、cross term に現れる $E[ ( T_n - E [T_n] ) ]$ が $0$ になるので、残るのは 2 乗の項 2 つだけで、
+        前者の $E [ (T_n - E[T_n])^2 ]$ は分散 $V [T_n]$ そのもの、後者はバイアス項そのものです。
+
+        さて、次に $\mathrm{MSE} [T_n]$ が $\theta$ によらず一定となる条件を考えていくのですが、
+        答案では断りなく $\theta, \theta^2$ の係数が $0$ となることが必要十分であるとしてしまっています。
+        果たしてこれは大丈夫なのでしょうか？
+        つまり、$\theta, \theta^2$ の係数が $0$ にならないケースでは、$\mathrm{MSE} [T_n]$ が $\theta$ に依存しないことはあり得ないと言い切れるでしょうか。
+        結論から言うとこれは大丈夫なのですが、ちょっと不安に思った方は考えてみましょう。
+
+        本題に戻ります。
+        (係数) $= 0 $ として出てくる $\alpha_n, \beta_n$ の連立方程式は、無計画に解くと計算量がエラいことになります。
+        実際なりました。
+        色々やり方はあると思いますが、まず \eqref{eq:2024-suri-3-mse-a}, \eqref{eq:2024-suri-3-mse-b} ともに
+        $(n \alpha_n - 1)$ と $n {\alpha_n}^2$ の塊があることに気付きます。
+        次に、\eqref{eq:2024-suri-3-mse-a} の方は $\alpha_n$ だけの式になっていますが、よく見ると (ほぼ) 完全平方式になっているので、
+        両辺の平方根をとれば $\alpha_n$ がすぐ求まると気付きます。
+        $\beta_n$ を求める際も、\eqref{eq:2024-suri-3-mse-a} と \eqref{eq:2024-suri-3-mse-b} を辺々割るなり代入するなりすれば
+        計算がかなり減ります。
+        ただ、$n \alpha_n - 1$ が $0$ にならないことや、不用意に $\pm$ と $\mp$ をひっくり返さないようには気を付けましょう。
+
+        % Q4
+        \item ここで出てくる 2 次不等式も、解の公式を使おうとすると沼ります。
+        公式略解のように、平方完成して平方根を取るのがやはり綺麗な気がします。
+
+        優劣を論ぜよとか言われてますが、何を言えばいいんでしょうね。
+        ここまでの計算量がなかなかヘビーなので、それっぽいことをそれっぽく書けば十分だとは思いますが。。。
+        まぁ、公式の解答が出るのを待ちましょう。
+        
+    \end{enumerate}
+
+\end{document}
