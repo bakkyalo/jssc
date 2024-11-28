@@ -1,0 +1,83 @@
+\documentclass[./main.tex]{subfiles}
+
+
+\begin{document}
+    \subsubsection*{問5}
+    \addcontentsline{toc}{subsubsection}{問5}
+    \markboth{2024年 統計応用 問5 (共通)}{2024年 統計応用 問5 (共通)}
+
+    \begin{enumerate}
+        \item 正規方程式の両辺に係数行列の逆行列を左から掛けて
+        \begin{equation*}
+            \begin{pmatrix}
+                b_1\\
+                b_2
+            \end{pmatrix}
+            = \frac{1}{1 - {r_{12}}^2}
+            \begin{pmatrix}
+                1 & -r_{12}\\
+                -r_{12} & 1
+            \end{pmatrix}
+            \begin{pmatrix}
+                r_{y1}\\
+                r_{y2}
+            \end{pmatrix}
+            = \frac{1}{1 - 0.5^2}
+            \begin{pmatrix}
+                1 \cdot 0.6 - 0.5 \cdot 0\\
+                -0.5 \cdot 0.6 + 1 \cdot 0
+            \end{pmatrix}
+            =
+            \begin{pmatrix}
+                0.8\\
+                -0.4
+            \end{pmatrix}
+        \end{equation*}
+        よって A さんは正しい。
+
+        % Q2
+        \item 条件 $b_1 > r_{y1}$ から $r_{y1} - r_{12} r_{y2} > y_{y1} (1 - {r_{12}}^2)$, \ 
+        次に $0 \leq r_{12} < 1$ かつ $r_{12} = 0$ は解とならないので $r_{y1} r_{12} > r_{y2}$, \
+        最後に $r_{y1} > 0$ より $r_{12} > \dfrac{r_{y2}}{r_{y1}}$.
+
+        % Q3
+        \item 条件 $b_2 < 0$ と $0 \leq r_{12} < 1$ から $-r_{12} r_{y1} + r_{y2} < 0$, \
+        $r_{y1} > 0$ より $r_{12} > \dfrac{r_{y2}}{r_{y1}}$.
+
+        % Q4
+        \item 分散を $V[\cdot]$, 共分散を $\mathrm{Cov} (\cdot, \cdot)$ で表すことにする。
+        $\mathrm{Cov} (x_1, x_2) 
+            = r_{12} \sqrt{V[x_1]} \sqrt{V[x_2]}
+            = 0.5$
+        なので
+        \begin{align*}
+            V[ \hat{y}] 
+                &= V[ 0.8 x_1 - 0.4 x_2 ]\\
+                &= 0.8^2 \, V[x_1] + 0.4^2 \, V[x_2] - 2 \cdot 0.8 \cdot 0.4 \, \mathrm{Cov} (x_1, x_2)\\
+                &= 0.64 \cdot 1 + 0.16 \cdot 1 - 0.64 \cdot 0.5\\
+                &= 0.48
+        \end{align*}
+        同様に $\mathrm{Cov} (y, x_1) = r_{y1} \sqrt{V[y]} \sqrt{V[x_1]} = 0.6$, \
+        $\mathrm{Cov} (y, x_2) = r_{y2} \sqrt{V[y]} \sqrt{V[x_2]} = 0$ より
+        \begin{align*}
+            \mathrm{Cov} (y, \hat{y})
+                &= \mathrm{Cov} (y, \ 0.8 x_1 - 0.4 x_2)\\
+                &= 0.8 \, \mathrm{Cov} (y, x_1) - 0.4 \, \mathrm{Cov} (y, x_2)\\
+                &= 0.8 \cdot 0.6 - 0.4 \cdot 0\\
+                &= 0.48.
+        \end{align*}
+
+        % Q5
+        \item ${R_2}^2
+            = \left\{ \dfrac{\mathrm{Cov} (y, \hat{y})}{\sqrt{V[y]} \sqrt{V[\hat{y}]}} \right\}^2
+            = \left( \dfrac{0.48}{\sqrt{1} \sqrt{0.48}} \right)^2
+            = 0.48$.
+        
+    \end{enumerate}
+
+    \subsubsection*{コメント}
+    特に言うことはありません。
+    問題文の長さは必ずしも難易度に相関しないということくらいですかね。
+
+
+\end{document}
