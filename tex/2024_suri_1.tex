@@ -1,0 +1,376 @@
+\documentclass[./main.tex]{subfiles}
+
+\usepackage{textgreek}
+\usepackage{upgreek}
+
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows.meta}
+
+% https://tex.stackexchange.com/questions/325211/fillbetween-doesnt-fill-entire-area-under-graph
+% \pgfmathdeclarefunction{gauss}{2}{%
+%     \pgfmathparse{1/(sqrt(2*pi*#2)) * exp(-( x - #1)^2/ (2*#2))}%
+% }
+
+\begin{document}
+    \subsubsection*{問1}
+    \addcontentsline{toc}{subsubsection}{問1}
+    \markboth{2024年 統計数理 問1}{2024年 統計数理 問1}
+
+    \begin{enumerate}
+        % Q1
+        \item $Y_i \sim N (\beta x_i, \sigma^2)$ なので、尤度関数 $L(\beta)$ は
+        \begin{equation*}
+            L (\beta)
+                = \prod_{i=1}^{n} \frac{1}{\sqrt{2 \pi \sigma^2}}
+                    \exp \left[ - \frac{(y_i - \beta x_i)^2}{2\sigma^2} \right]
+        \end{equation*}
+        よって、対数尤度関数 $l (\beta)$ は
+        \begin{equation*}
+            l (\beta)
+                = \log L (\beta)
+                = - \frac{n}{2} \log (2 \pi \sigma^2)
+                    - \frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \beta x_i)^2
+        \end{equation*}
+
+        % Q2
+        \item $\displaystyle\frac{\partial l (\beta)}{\partial \beta} = \frac{1}{\sigma^2} \sum_{i=1}^n x_i (y_i - \beta x_i)$
+        を $0$ にするような $\beta$ を求めて、
+        $\hat{\beta}_{ML} = \dfrac{\sum_{i=1}^n x_i Y_i}{\sum_{i=1}^n {x_i}^2}$.
+        さらに $E [Y_i] = \beta x_i$ より
+        \begin{equation*}
+            E\left[\hat{\beta}_{ML} \right]
+                = \frac{1}{\sum_{i=1}^n {x_i}^2} \sum_{i=1}^n x_i E[Y_i]
+                = \frac{1}{\sum_{i=1}^n {x_i}^2} \sum_{i=1}^n \beta {x_i}^2
+                = \beta
+        \end{equation*}
+        すなわち $\hat{\beta}_{ML}$ は不偏。
+
+
+        % Q3
+        \item $\displaystyle I_n (\beta) = -E \left[ \frac{\partial^2 l(\beta)}{\partial \beta^2} \right]
+                = \frac{1}{\sigma^2} \sum_{i=1}^n {x_i}^2$ であり、
+                クラメール・ラオの下限はその逆数。
+
+        % Q4
+        \item $\displaystyle E [\tilde{\beta}] 
+                = \frac{1}{\sum_{i=1}^n x_i} \sum_{i=1}^n E [Y_i]
+                = \beta$
+            \ および \ 
+            $\displaystyle V [ \tilde{\beta}]
+                = \frac{1}{ \left( \sum_{i=1}^n x_i \right)^2} \sum_{i=1}^n V [\varepsilon_i]
+                = \frac{n \sigma^2}{\left( \sum_{i=1}^n x_i  \right)^2}$.
+        
+        % Q5
+        \item まず
+        \begin{equation*}
+            V [\hat{\beta}_{ML}]
+                = \frac{1}{ \left( \sum_{i=1}^n {x_i}^2 \right)^2} V \left[ \sum_{i=1}^n x_i Y_i \right]
+                = \frac{1}{ \left( \sum_{i=1}^n {x_i}^2 \right)^2} \sum_{i=1}^n {x_i}^2 \sigma^2
+                = \frac{\sigma^2}{\sum_{i=1}^n {x_i}^2}
+                \left( = \frac{1}{I_n (\beta)} \right)
+        \end{equation*}
+        より、$\hat{\beta}_{ML}$ はクラメール・ラオの下限を達成し、
+        $\hat{\beta}_{ML}$ と $\tilde{\beta}$ はともに不偏であるから
+        $V [\hat{\beta}_{ML}] \leq V [\tilde{\beta}]$ である。
+        検出力は検定統計量の分散が小さいほど大きくなるので (後述のコメントも参照)、
+        $\hat{\beta}_{ML}$ を用いた検定の検出力は $\tilde{\beta}$ を用いた検定の検出力以上である。
+
+    \end{enumerate}
+
+
+    % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    \subsubsection*{コメント}
+        
+    対数尤度から最尤推定量を求めるという基礎的なところから、
+    フィッシャー情報量やクラメール・ラオの不等式を介して検出力を評価していくところまで、
+    重要事項マシマシの良問である。
+    各問はどれも基本的なので是非とも完答できるようにしておきたい。
+
+    検出力は慣れていないとなかなか求められないものである。
+    本問は分散既知の正規母集団から得た統計量による片側検定というもっとも簡単な設定なので、練習には格好の題材である。
+    検出力は人によって理解しやすい形が変わってくると思われるので、色々な本を読みながら自分の肌に合った捉え方を少しずつ確立していこう。
+    筆者の個人的なコツは、「棄却域を正しく理解すること」である。
+
+    \begin{enumerate}
+        % Q1
+        \item まぁ、やるだけです。
+        % Q2
+        \item $x_i$ は確率変数ではないことに注意しよう。
+        
+        % Q3
+        \item せっかくなのでここでフィッシャー情報量\index{フィッシャー情報量}の復習をしておこう。
+        フィッシャー情報量は、ある確率変数 $X$ がパラメーター $\theta$ に関して持つ情報の大きさを、尤度関数の「鋭さ」に着目して定量化したものである。
+        鋭い尤度関数ほど $\theta$ の推定がより正確にでき、$\theta$ に関する情報量が大きいと捉えることができる。
+
+        
+        % 具体的には、確率変数 $X$ の確率密度関数 $f(x; \theta)$ に対し、フィッシャー情報量 $I (\theta)$ は次のように定義される。
+        これから具体的にフィッシャー情報量 $I (\theta)$ を定義していくが、
+        それに先立ってまずスコア関数 $S (X; \theta)$ というものを定義して、その性質を確認しておく。
+        なお、以下の \textbf{正則性条件} (regularity conditions) は無条件に認めるものとする。
+        \begin{itemize}
+            \item 確率密度関数 $f(x; \theta)$ は $\theta$ に関して少なくとも 2 階微分可能である。
+            \item $\theta$ に関する微分 $\frac{\partial}{\partial \theta}$ と $x$ に関する積分 $\int \cdot \, dx $ は交換可能である。
+        \end{itemize}
+
+        \begin{definition}[スコア関数]
+            スコア関数 $S (X; \theta)$ を対数尤度の微分で定める。
+            \begin{equation}
+                S (X; \theta) = \frac{\partial}{\partial \theta} \log f(X; \theta)
+            \end{equation}
+        \end{definition}
+        \begin{theorem}
+            正則性条件の下で、スコア関数の期待値は $0$ である。 $E[ S(X; \theta) ] = 0.$
+        \end{theorem}
+        \begin{proof}
+            \small
+            $%\displaystyle 
+            E [S(X; \theta)] 
+                = \int \frac{\partial \log f(x; \theta)}{\partial \theta} \cdot f(x; \theta) \, dx
+                = \int \frac{\partial}{\partial \theta} f(x; \theta) \, dx
+                = \frac{\partial}{\partial \theta} \int f(x; \theta) \, dx
+                = 0.$
+        \end{proof}
+        \begin{definition}[フィッシャー情報量]
+            スコア関数の分散をフィッシャー情報量 $I (\theta)$ と定める。すなわち
+            \begin{equation}\label{eq:2024-suri-1-fisher-def1}
+                I (\theta) = V[ S(X; \theta) ] 
+                    = E \left[ \left( \frac{\partial \log f(X; \theta) }{\partial \theta} \right)^2  \right]
+            \end{equation}
+        \end{definition}
+
+        フィッシャー情報量は分散で定義されるので当然 $0$ 以上である。
+
+        \begin{theorem}[フィッシャー情報量]
+            正則性条件の下で、フィッシャー情報量は次のようにも書ける。
+            \begin{equation}\label{eq:2024-suri-1-fisher-def2}
+                I (\theta)
+                    = - E \left[ \frac{\partial^2 \log f (X; \theta)}{\partial \theta^2} \right]
+            \end{equation}
+        \end{theorem}
+
+        \begin{proof}
+            \small
+            $\frac{\partial^2 \log f(X; \theta)}{\partial \theta^2}
+                = \frac{\partial}{\partial \theta} \frac{\frac{\partial f(X; \theta)}{\partial \theta} }{f(X; \theta)}
+                = \frac{\frac{\partial^2 f(X; \theta)}{\partial^2 \theta} }{f(X; \theta)} 
+                    - \left( \frac{\frac{\partial f(X; \theta)}{\partial \theta} }{f(X; \theta)} \right)^2$
+            であり、期待値をとると第 1 項は正則性条件により $0$ となる。
+            第 2 項の $(\cdot)$ の中身は $\frac{\partial \log f(X; \theta)}{\partial \theta}$ と等しく、
+            \eqref{eq:2024-suri-1-fisher-def1} と同じ形が現れる。
+        \end{proof}
+
+        曲線の 2 階微分は曲率に対応しているため
+        \footnote{曲線を弧長パラメーターで微分すると接線ベクトルになり、さらに微分すると (主) 法線ベクトルのスカラー倍になる。
+        その倍率のことを曲率と呼ぶのであった。}、
+        この表現 \eqref{eq:2024-suri-1-fisher-def2} によって $I (\theta)$ が対数尤度の曲率の期待値を表していると解釈できる。
+        言い換えると、$I(\theta)$ が大きいほど尤度関数が「鋭い」のである。
+        実用的には、\eqref{eq:2024-suri-1-fisher-def1}, \eqref{eq:2024-suri-1-fisher-def2} のうち計算しやすそうな方を使えばよい。
+
+
+        そして話を不偏推定量 $\hat{\theta}$ に絞れば、その分散をフィッシャー情報量によって下から抑えらえれる。
+        これがクラメール・ラオの不等式である。
+
+        \begin{theorem}[クラメール・ラオの不等式]
+            正則性条件の下、$\theta$ に関する任意の不偏推定量 $\hat{\theta}$ は フィッシャー情報量 $I (\theta)$ の逆数以上である。
+            \begin{equation}\label{eq:2024-suri-1-cramer-rao}
+                V [ \hat{\theta}] 
+                    \geq \frac{1}{I (\theta)}
+            \end{equation}
+        \end{theorem}
+        等号を満たす $\hat{\theta}$ は有効\index{有効}であるといい、 $\frac{1}{I (\theta)}$ をクラメール・ラオの下限\index{クラメール・ラオの下限}と呼ぶ。
+
+        \begin{proof}
+            \small
+            不偏推定量 $\hat{\theta}$ とスコア関数 $S(X; \theta)$ につき
+            \begin{equation*}
+                V[\hat{\theta}] \cdot V [S (X; \theta)]
+                    \geq \mathrm{Cov} (\hat{\theta}, S(X; \theta) )
+            \end{equation*}
+            であり、左辺の $V[S(X; \theta)]$ は $I (\theta)$ そのもの、
+            右辺は $E[\hat{\theta}] = \theta$ と $E [ S(X; \theta)] = 0$ から
+            \begin{equation*}
+                \mathrm{Cov} (\hat{\theta}, S(X; \theta) )
+                    = E[ \hat{\theta} \cdot S(X; \theta) ]
+                    = \int \hat{\theta} \cdot S(x; \theta) f(x; \theta) \, dx
+                    = \int \hat{\theta} \cdot \frac{\partial}{\partial \theta} f(x; \theta) \, dx
+                    = \frac{\partial}{\partial \theta} E[\hat{\theta}]
+                    = 1.
+            \end{equation*}
+        \end{proof}
+
+        % Q4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \item これもやるだけですが、ここで $\tilde{\beta}$ も不偏だと分かるので、
+        [5] でクラメール・ラオの不等式が使えそうな雰囲気を感じます。
+        % クラメール・ラオの不等式で分散を比較できそうだなと分かります。
+        \item 一般に、検定統計量として $N (\mu, s^2) \quad (s > 0 \ \text{は既知}) $  に従う $\hat{\mu}$ を採用したときの
+        片側検定 $H_0: \mu = \mu_0, \ H_1: \mu = \mu_1 > \mu_0$ の検出力\index{検出力}がどのように書けるか考えてみよう。
+        まず $\hat{\mu}$ は、$H_0$ が正しいときは変換 $f_0: \hat{\mu} \mapsto \frac{\hat{\mu} - \mu_0}{s}$ によって、
+        $H_1$ が正しいときは変換 $f_1: \hat{\mu} \mapsto \frac{\hat{\mu} - \mu_1}{s}$ によって、
+        ともに標準正規分布 $N (0, 1)$ に従う確率変数に変換される (図\ref{fig:2024-suri-1-power})。
+        今回は右側検定であるから棄却域は $\hat{\mu} > c$ の形で書け
+        \footnote{ここに少なからぬ論理の飛躍があると感じてしまうのは筆者だけではないと信じたい。
+        というのも、「$H_0$ を棄却する」という言葉の定義を「$H_0$ が正しいとしたときに検定統計量の実現値が棄却域に入ること」とする以上、
+        棄却域をどう定めるかという問題に直面することになるが、
+        困ったことにこれが $H_1$ の決め方によってころころ変わってしまい、どこか数学的に整然としていない印象を受けてしまうのである。
+        例えば両側検定の場合は棄却域は $\vert\hat{\mu}\vert > c$ のように定めることになるが、
+        これは論理的な必然によってそう定まったというよりは、人為的な何かが作用してそのように決まったような気分になってしまう。
+        ましてや $F$ 検定のような左右非対称な分布に従う検定統計量を扱うときはなおさらである。
+        しかし、この点に関して延々と悩むのは無駄であり、
+        さしあたっては尤度比検定というこの世のすべてみたいな検定を原理として認め、
+        その特殊な場合として今回の検定は導かれると理解しておくべきであると思われる。
+        「使って便利で正しい結果がでてくる概念, 記号, 式などは当初曖昧な点があっても, 後できちんと正当化されるということは数学の歴史が示している。」
+        }
+        、有意水準が $\alpha$ の場合は
+        \begin{equation}\label{eq:2024-suri-1-significance}
+            \frac{c - \mu_0}{s} = z_\alpha
+        \end{equation}
+        が成立する。
+        ここで $z_\alpha$ は標準正規分布の上側 $100\alpha \, \%$ 点である。
+        一方、検出力 $1 - \textrm{\upbeta}$ 
+        \footnote{問題文中の $\beta$ と区別するために、Type II error の確率を表す文字として $\upbeta$ (\detokenize{\upbeta}) を用いている。}
+         とは $H_1: \mu = \mu_1$ が正しい時に $H_0$ を棄却する (つまりうれしい！) 確率だったから
+        \begin{equation}\label{eq:2024-suri-1-power}
+            \frac{c - \mu_1}{s} = z_{1 - \upbeta}
+        \end{equation}
+        である。
+        \eqref{eq:2024-suri-1-significance}, \eqref{eq:2024-suri-1-power} から $c$ を消去し、$1 - \upbeta$ について解くと
+        \begin{equation}
+            1 - \upbeta
+                = 1 - \Phi \left( z_\alpha - \frac{\mu_1 - \mu_0}{s}  \right)
+        \end{equation}
+        ここで $\Phi (\cdot)$ は標準正規分布の累積分布関数で
+        \footnote{$z_{\cdot}$ の逆関数が $1 - \Phi(\cdot)$ である。}、単調非減少である。
+        いま得られた式をよく眺めると、検出力 $1 - \upbeta$ を大きくするためには $s$ を小さくすればよいことが読み取れる
+        \footnote{
+            $1 - \upbeta$ を大きくするためには $\Phi (\cdot)$ を小さくすればよく、
+            $\Phi (\cdot)$ は単調非減少なのでその引数 $z_\alpha - \frac{\mu_1 - \mu_0}{s}$ も小さくすればよい。
+            そのためには $\frac{\mu_1 - \mu_0}{s}$ が大きくなればよく、
+            最終的には $s$ が小さくなればよいと分かる。
+        % $s$ が小さいほど $\frac{\mu_1 - \mu_0}{s}$ は大きくなるので、$\Phi (\cdot)$ の中身は小さくなる。
+        % $\Phi (\cdot)$ は単調非減少なので $\Phi (\cdot)$ も小さくなり、最終的に $1 - \Phi (\cdot)$ は大きくなると分かる。
+        }。
+
+        さて、$V [\hat{\beta}_{ML}]$ と $V [\tilde{\beta}]$ の大小だが、
+        $\hat{\beta}_{ML}$ がクラメール・ラオの下限を達成するからといってもよいし、
+        コーシー・シュワルツの不等式などを使って示しても良い。
+        そもそも、クラメール・ラオの不等式\eqref{eq:2024-suri-1-cramer-rao} を示す際に使う分散と共分散の不等式はコーシー・シュワルツの不等式から得られる。
+        % ここで一度導出過程を確認しておくと、$S (X; \theta) = \frac{\partial \log f(X; \theta)}{\partial \theta}$ をスコア関数として
+
+
+        % \begin{figure}[tb]
+        %     \centering
+        %     \begin{tikzpicture}
+
+        %         % 左上
+        %         \begin{axis}[
+        %             axis lines=center,
+        %             xlabel=$\hat{\mu}$,
+        %             xmin=-5, xmax=5,
+        %             ymin=-0.1, ymax=0.5,
+        %             xtick distance=1, ytick distance=1,
+        %             width=0.5\hsize, height=0.3\hsize
+        %         ]
+        %             \addplot [domain=-5:5, samples=100, thick] {1 / sqrt(2*pi) * exp(-x^2 / 2)};
+        %         \end{axis}
+        %     \end{tikzpicture}
+        %     \begin{tikzpicture}
+        %         \begin{axis}[
+        %             axis lines=center,
+        %             xlabel=$\hat{\mu}$,
+        %             xmin=-5, xmax=5,
+        %             ymin=-0.1, ymax=0.5,
+        %             xtick distance=1, ytick distance=1,
+        %             width=0.5\hsize, height=0.3\hsize
+        %         ]
+        %             \addplot [domain=-5:5, samples=100, thick] {1 / sqrt(2*pi) * exp(-(x-1)^2 / 2)};
+        %         \end{axis}
+        %     \end{tikzpicture}
+        % \end{figure}
+
+        \begin{figure}[tb]
+            \centering
+            \begin{tikzpicture}
+                \begin{groupplot}[
+                    group style={
+                        group size={2 by 2},
+                        vertical sep=1cm
+                    },
+                    xticklabels=\empty,     % 目盛りの値
+                    xtick=\empty,           % 目盛り線
+                    yticklabels=\empty,
+                    ytick=\empty,
+                    xlabel=$\hat{\mu}$,
+                    axis lines=center,
+                    xmin=-6, xmax=6,
+                    ymax=0.5,
+                    samples=100,
+                    width=0.5\hsize, height=0.3\hsize
+                ]
+
+                % 左上
+                \nextgroupplot[axis y line=none, extra x ticks={0}, extra x tick labels={$\mu_0$}, xlabel style={yshift=-0.6cm}]
+                    % 塗り塗り
+                    %\addplot [fill=red!20, opacity=0.5, domain=2:5] {1 / sqrt(2*pi) * exp (-x^2 / 2.5)} \closedcycle;
+                    \addplot [fill=red!20, opacity=0.5, domain=2:6] {gauss(0, 2.5)} \closedcycle node [pos=-0.06, above, red, opacity=1] {$\alpha$};
+
+                    % \addplot [domain=-5:5, thick] {1 / sqrt(2*pi) * exp (-x^2 / 2.5)} node [pos=0.5, above] {$H_0$};
+                    \addplot [domain=-6:6, thick] {gauss(0, 2.5)} node [pos=0.5, above] {$H_0$};
+                    
+                    % \node [label={below right:haha}] (a) at (axis cs: 2, 0) {};
+                    \coordinate (C0) at (axis cs: 2, 0);
+                    \coordinate (A) at (axis cs: 2, 0.4);
+
+                
+                % 右
+                \nextgroupplot[title={$N (0, 1)$}, yshift=-0.1\hsize, xmin=-5, xmax=5, xlabel=\empty]
+                    % 塗り塗り
+                    \addplot [fill=blue!20, opacity=0.4, domain=-0.5:4] {gauss(0, 1)} \closedcycle node [above left, blue, opacity=1]{$1-\upbeta$};
+                    \addplot [fill=red!20, opacity=0.4, domain=2:4] {gauss(0, 1)} \closedcycle node [above right, red, opacity=1] {$\alpha$};
+
+                    \addplot [domain=-4:4, thick] {gauss(0, 1)};
+
+                    \coordinate (a) at (axis cs: 2, 0);
+                    \coordinate (aa) at (axis cs: 2.1, -0.1);
+                    \coordinate (b) at (axis cs: -0.5, 0);
+                    \coordinate (bb) at (axis cs: -0.4, -0.1);
+            
+                % 左下
+                \nextgroupplot[axis y line=none, extra x ticks={3}, extra x tick labels={$\mu_1$}, xlabel style={yshift=-0.6cm}]
+                    % 塗り塗り
+                    % \addplot [fill=blue!20, opacity=0.5, domain=2:5] {1 / sqrt(2*pi) * exp (-(x-1.5)^2 / 2.5)} \closedcycle;
+                    \addplot [fill=blue!20, opacity=0.5, domain=2:6] {gauss(3, 2.5)} \closedcycle node [pos=-0.12, above,  blue, opacity=1] {$1-\upbeta$};
+
+                    % \addplot [domain=-5:5, thick] {1 / sqrt(2*pi) * exp (-(x-1.5)^2 / 2.5)} node [pos=0.65, above] {$H_1$};
+                    \addplot [domain=-6:6, thick] {gauss(3, 2.5)} node [pos=0.75, above] {$H_1$};
+
+                    \coordinate (C1) at (axis cs: 2, 0);
+                    \coordinate (B) at (axis cs: 2, -0.15);
+                
+            
+                \end{groupplot}
+                %\draw [thick, -{Stealth}, bend left] (group c1r1.east) to[out=30, in=150] (group c2r1.west) node[midway, below] {$f_0$};
+                \path [thick, -{Stealth}, bend left] (group c1r1.east) edge[bend left=20] node[pos=0.5, above right] {$f_0$} (group c2r1.west);
+                \path [thick, -{Stealth}, bend left] (group c1r2.east) edge[bend right=20] node[pos=0.5, below right] {$f_1$} (group c2r1.south west);
+                % \draw [thick, red] (group c1r1)
+
+
+                % 赤線
+                \draw [red] (A) -- (B) node [midway, right] {→ 棄却域};
+
+                \node [below left] at (C0) {$c$};
+                \node [below left] at (C1) {$c$};
+
+                \node [below] at (a) {\small $f_0 (R)$};
+                \node [below] at (aa) {\small $= z_\alpha$};
+                \node [below] at (b) {\small $f_1 (R)$};
+                \node [below] at (bb) {\small $= z_{1 - \upbeta}$};
+
+            \end{tikzpicture}
+
+
+            \caption{右側検定 $H_0: \mu = \mu_0, \ H_1: \mu = \mu_1 > \mu_0$ の図解。}
+            \label{fig:2024-suri-1-power}
+        \end{figure}
+    \end{enumerate}
+\end{document}

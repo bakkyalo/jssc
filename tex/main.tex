@@ -8,10 +8,11 @@
 \author{\href{https://github.com/bakkyalo}{bakkyalo}}
 \date{\today}
 
-
 \begin{document}
     \maketitle
     \subfile{preface.tex}
+
+    \newpage
     \tableofcontents
     \newpage
 
@@ -22,12 +23,16 @@
     \subsection*{統計数理}
     \addcontentsline{toc}{subsection}{統計数理}
 
+    \subfile{2024_suri_1.tex}
     \subfile{2024_suri_3.tex}
     \subfile{2024_suri_4.tex}
 
     \subsection*{統計応用 (理工学)}
     \addcontentsline{toc}{subsection}{統計応用 (理工学)}
 
+    \subfile{2024_ouyo_rikou_1.tex}
+    \subfile{2024_ouyo_rikou_2.tex}
+    \subfile{2024_ouyo_rikou_3.tex}
     \subfile{2024_ouyo_5.tex}
 
     % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -38,5 +43,11 @@
     \addcontentsline{toc}{subsection}{統計数理}
     
     \subfile{2023_suri_1.tex}
+
+    % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    % \addcontentsline{toc}{section}{索引}
+    \printindex
+
+
 
 \end{document}

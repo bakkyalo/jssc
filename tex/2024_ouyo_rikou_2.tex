@@ -1,0 +1,164 @@
+
+\documentclass[./main.tex]{subfiles}
+
+\begin{document}
+    \subsubsection*{問2}
+    \addcontentsline{toc}{subsubsection}{問2}
+    \markboth{2024年 統計応用 (理工学) 問2}{2024年 統計応用 (理工学) 問2}
+
+    故障時間の確率密度関数は $\displaystyle f(t) \coloneq F^\prime (t) = h(t) \exp \left( - \int_0^t h(s)\,ds \right)$ である。
+    
+    \begin{enumerate}
+        \item
+        \begin{enumerate}
+            \item $F(t) = 1 - \exp \left\{ - t \exp (\alpha + \beta x )\right\}$.
+            
+            \item $f(t) = \exp (\alpha + \beta x) \exp \left\{ -t \exp(\alpha + \beta x) \right\} $ より, 尤度関数は\\
+            $\displaystyle L (\alpha, \beta) = \prod_{i=1}^4
+                \exp (\alpha + \beta x_i) \exp \left\{ -T_i \exp (\alpha + \beta x_i) \right\}$
+            
+            % 1-3
+            \item 対数尤度は
+            \begin{align*}
+                \ell (\alpha, \beta)
+                    &\coloneq \log L (\alpha, \beta)\\
+                    &= \sum_{i=1}^4 \log \{ \exp(\alpha + \beta x_i) \} - \sum_{i=1}^4 T_i \exp (\alpha + \beta x_i)\\
+                    &= \log \theta_0 + \log \theta_0 + \log \theta_1 + \log \theta_1
+                        - 35 \theta_0 - 16 \theta_0 - 9 \theta_1 - 12 \theta_1\\
+                    &= 2 \log\theta_0 + 2\log\theta_1 - 51\theta_0 - 21\theta_1
+            \end{align*}
+            したがって $\displaystyle \frac{\partial \ell(\alpha, \beta)}{\partial \theta_0} = \frac{2}{\theta_0} - 51$, \ 
+            $\displaystyle \frac{\partial \ell(\alpha, \beta)}{\partial \theta_1} = \frac{2}{\theta_1} - 21$ であり、
+            これらを $0$ にする $\hat{\theta}_0 = \dfrac{2}{51}$, $\hat{\theta_1}_1 = \dfrac{2}{21}$ が表 1 のデータに基づく最尤推定値となる。
+            これより
+            \begin{equation*}
+                \hat{\alpha} = \log \hat{\theta}_0 = \log \frac{2}{51}, \qquad
+                \hat{\beta} = -\hat{\alpha} + \log \hat{\theta}_1
+                    = - \log \frac{2}{51} + \log \frac{2}{21}
+                    = \log \frac{17}{7}.
+            \end{equation*}
+        
+        \end{enumerate} 
+
+        \item
+        \begin{enumerate}
+            \item $f(t) = \gamma t^{\gamma - 1} \exp (\alpha + \beta x)
+                \exp \left\{ -t^\gamma \exp (\alpha + \beta x) \right\}$
+            より、尤度関数は\\
+            $\displaystyle L(\alpha, \beta, \gamma)
+                = \prod_{i=1}^{4}
+                    \gamma T_i^{\gamma - 1} \exp (\alpha + \beta x_i)
+                    \exp \left\{ -T_i^\gamma \exp (\alpha + \beta x_i) \right\}$\\
+            \item よって、対数尤度は
+            \begin{align*}
+                \ell (\alpha, \beta, \gamma)
+                    &\coloneq \log L(\alpha, \beta, \gamma)\\
+                    &= 4 \log \gamma 
+                        + \sum_{i=1}^4 (\gamma - 1) \log T_i
+                        + \sum_{i=1}^4 (\alpha + \beta x_i)
+                        - \sum_{i=1}^{4} T_i^\gamma \exp (\alpha + \beta x_i)\\
+                    &= 4 \log \gamma
+                        - \sum_{i=1}^{4} \log T_i
+                        + \sum_{i=1}^{4} (\alpha + \beta x_i + \gamma \log T_i)
+                        - \sum_{i=1}^{4} \exp \left( \alpha + \beta x_i + \gamma \log T_i \right)
+            \end{align*}
+            ここで $\theta = (\alpha, \beta, \gamma)^\prime, \ 
+                z_i = (1, x_i, \log T_i)^\prime$ 
+            とおくと、これは
+            \begin{equation*}
+                \ell (\theta)
+                    = 4 \log \gamma - \sum_{i=1}^{4} \log T_i
+                        + \sum_{i=1}^{4} \theta^\prime z_i
+                        - \sum_{i=1}^4 \exp(\theta^\prime z_i)
+            \end{equation*}
+            と (やや) 簡潔にできる。
+            さて、勾配演算子を $\nabla = (\frac{\partial}{\partial \alpha}, \frac{\partial}{\partial \beta}, \frac{\partial}{\partial \gamma})^\prime$
+            と定義すると
+            \begin{equation*}
+                \nabla \ell (\theta)
+                    = \left( 0, 0, \frac{4}{\gamma} \right)^\prime
+                        + \sum_{i=1}^4 z_i^\prime
+                        - \sum_{i=1}^{4} \exp(\theta^\prime z_i) z_i^\prime
+            \end{equation*}
+            より、$\ell (\theta)$ のヘッセ行列 $H$ は次のようになる。
+            \begin{equation*}
+                H \coloneq \nabla \nabla^\prime \ell (\theta) =
+                \begin{pmatrix}
+                    0 & 0 & 0\\
+                    0 & 0 & 0\\
+                    0 & 0 & -4 / \gamma^2
+                \end{pmatrix}
+                - \sum_{i=1}^{4} \exp(\theta^\prime z_i) z_i z_i^\prime
+            \end{equation*}
+            これが負定値であることを示す。
+            non-zero のベクトル $v = (v_1, v_2, v_3)^\prime \neq 0$ を任意にとると、
+            \begin{equation*}
+                v^\prime H v
+                    % = - \frac{4}{r^2} v_3^2
+                    %    - \sum_{i=1}^4 \exp (\theta^\prime z_i) v^\prime z_i z_i^\prime v
+                    = - \frac{4}{r^2} v_3^2
+                        - \sum_{i=1}^4 \exp (\theta^\prime z_i) \cdot (v^\prime z_i)^2
+            \end{equation*}
+            式中 2 項目に現れる $v^\prime z_i z_i^\prime v$ は、
+            $v^\prime z_i$ と $z_i^\prime v$ がともにスカラーで、互いに転置の関係になっていることに注意。
+            これは常に負になるから、$H$ は負定値である。
+        \end{enumerate}
+    \end{enumerate}
+
+    \subsubsection*{コメント}
+    無理すぎて草が生える問題である。\\
+    ただし、微分ゴリラになれば最後まで辿りつけはするのである意味取り掛かりやすい問題ともいえる。
+    \begin{enumerate}
+        \item 
+        \begin{enumerate}
+            % Q1-1
+            \item $\exp$ の肩はただ $t$ 倍されるだけである。間違えて $x$ で積分しないように。
+
+            % Q1-2
+            \item 本来、このような問題の書き方だと $(x_i; T_i)$ に具体的な値を代入したものが正答になると思います。
+            しかし、ここで代入してしまうと計算の見通しが立てにくくなるのに加え、どうせ [1-3] の最後に代入することになるのでここで止めています。
+            正直、このような誘導はあまり適切ではないと思います。
+
+            % Q1-3
+            \item いつものように対数尤度の偏微分が $0$ となる点を探します。
+            $\theta_0, \theta_1$ を使えと書いてあるので使います。
+            これが [2-2] への伏線になっているのかもしれないし、なっていないのかもしれない。
+        \end{enumerate}
+
+        \item
+        \begin{enumerate}
+            \item \relax [1-2] とおなじ理由でここで止めています。
+            \item 公式の略解がめちゃくちゃ綺麗なので今回の答案もそれに準拠して書いていますが、
+            本質的には $3\times3 = 9$ 回の偏微分をやっていることに変わりはありません
+            (今回は $\ell (\alpha, \beta, \gamma)$ は $C^\infty$ 級なので偏微分は交換でき実質 6 回。詳細はシュワルツの定理などで検索)。
+            しかし、偏微分をバラバラに計算していざヘッセ行列が求まったとして、その負定値性まで示すのは至難の業です。
+            ましてや [2-1] で $(x_i; T_i)$ を代入しようものにはもう絶望的です。
+            やはり全体の構造を腰を据えて眺めてみたくなります。\\
+            ここで、[1-3] に $\theta_0 = \exp(\alpha), \ \theta_1 = \exp (\alpha + \beta)$ と置くという謎の誘導がありました。
+            ということは、今回も尤度の式に現れる $T_i^\gamma$ もむりやり $\exp$ の肩に乗せてあげればそれらしくなるのでは？と思う訳です。
+            ... 思わせたかったのでしょう。
+            実際、パラメータ $\alpha, \beta, \gamma$ とデータの変数 $x_i, T_i$ が分離できるので、統一的に微分計算がしやすくなります。
+            でもなぁ、流石にこれに気付くの無理じゃあないかなぁ。
+            [2-1] で代入させるのがあまりにも罠すぎる。
+            という訳で、計算は楽にやろうという教訓が得られる問題なのでした。\\
+            負定値性を示すには 2 次形式を考えるのが定番です。
+            2019 年の理工学 問 4 にも行列の定値性を示させる問題があった気がします。
+
+            そういえば、ヘッセ行列の負定値性を示させる理由ですが、
+            そもそも我々には尤度を最大化したいというモチベーションがありまして、そのために対数尤度の極大点が欲しくなるのですが、
+            対数尤度の勾配 $\nabla \ell(\theta)$ が $0$ になるという条件だけでは必ずしもそこで尤度が極大になっているとは限らないからです。
+            $\nabla \ell (\theta) = 0$ に加え、
+            % $\nabla \nabla^\prime \ell (\theta) < 0$ 
+            その点でのヘッセ行列の負定値性が言えて初めて極大だと言えます。
+            1 変数関数の時の、1 階微分が $0$ かつ 2 階微分が負ならば極大、という話に似ていますね。
+            なので、本来は任意の $\theta$ に対して $H = \nabla\nabla^\prime \ell (\theta)$ が負定値であるとまではいう必要はないのですが、
+            今回はついでに示せちゃうねという問題だったのでした (むしろ、$\nabla \ell (\theta) = 0$ となる $\theta$ での負定値性を示す方が大変かもしれません)。
+            \\
+            ...あれ、そういえばふだん最尤推定量を求める時に 2 階微分が負になることの確認ってしてたっけ？
+            まぁいいか。
+            
+
+        \end{enumerate}
+    \end{enumerate}
+
+\end{document}

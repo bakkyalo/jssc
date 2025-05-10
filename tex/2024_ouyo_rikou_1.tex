@@ -1,0 +1,264 @@
+\documentclass[./main.tex]{subfiles}
+
+\begin{document}
+    \subsubsection*{問1}
+    \addcontentsline{toc}{subsubsection}{問1}
+    \markboth{2024年 統計応用 (理工学) 問1}{2024年 統計応用 (理工学) 問1}
+    以下の答案では、 A, B, C, R の水準数をそれぞれ $a, b, c, r$ とする。
+    (すなわち、 $(a, b, c, r) = (2, 2, 3, 3)$ である。)
+
+    \begin{enumerate}
+        \item まず A の水準の順番についてランダム化し、その各々に対して B, C についてランダム化する。
+
+        % Q2
+        \item $y_{ijkl} = \mu + \rho_l + \alpha_i + \varepsilon_{(1)il}
+                + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}
+                + (\alpha\beta\gamma)_{ijk} + \varepsilon_{(2)ijkl}$\\
+        ただし以下の制約を満たす。
+        \begin{align*}
+            &\sum_{i=1}^a \alpha_i = \sum_{j=1}^b \beta_j = \sum_{k=1}^c \gamma_k = \sum_{l=1}^r \rho_l = 0,\\
+            &\sum_{i=1}^a (\alpha\beta)_{ij} = \sum_{j=1}^b (\alpha\beta)_{ij}
+                = \sum_{i=1}^a (\alpha\gamma)_{ik} = \sum_{k=1}^c (\alpha\gamma)_{ik}
+                = \sum_{j=1}^b (\beta\gamma)_{jk} = \sum_{k=1}^c (\beta\gamma)_{jk} = 0,\\
+            &\sum_{i=1}^a (\alpha\beta\gamma)_{ijk}
+                = \sum_{j=1}^b (\alpha\beta\gamma)_{ijk}
+                = \sum_{k=1}^c (\alpha\beta\gamma)_{ijk}
+                = 0.
+        \end{align*}
+        % Q3
+
+        \item 反復を行わない場合、一般平均 $\mu$ と反復 $\mathrm{R}_l$ の効果 $\rho_l$、
+        A の主効果 $\alpha_i$ と 1 次誤差 $\varepsilon_{(1)il}$、
+        A$\times$B$\times$C の交互作用 $(\alpha\beta\gamma)_{ijk}$ と 2 次誤差 $\varepsilon_{(2)ijkl}$ がそれぞれ交絡する。
+        すなわち\\
+        $y_{ijk} = \mu + \alpha_i + \beta_j + \gamma_k + (\alpha\beta)_{ij} + (\alpha\gamma)_{ik} + (\beta\gamma)_{jk}
+                + \varepsilon_{ijk}$
+        
+        % Q4
+        \item 一般に、確率変数の組 $\{ x_i \}_{i=1}^n$ が互いに独立で、それぞれの期待値が $0$, 分散が $\sigma^2$ であるとき、
+        \begin{equation}
+            E \left[ \sum_{i=1}^n (x_i - \bar{x}_{\cdot})^2 \right] = (n - 1) \sigma^2
+            \label{eq:2024-ouyo-rikou-1-unbiased-var}
+        \end{equation}
+        であることに注意する。ここで $\bar{x}_\cdot = \frac{1}{n} \sum_{i=1}^n x_i$ である。
+        [2] の構造式から
+        \begin{alignat*}{4}
+            \bar{y}_{i\cdot\cdot l}     &= \mu &+{} \rho_l  &+ \alpha_i &&+{} \varepsilon_{(1)il}           + \bar{\varepsilon}_{(2)i\cdot\cdot l}\\
+            \bar{y}_{i\cdot\cdot\cdot}  &= \mu &\qquad      &+ \alpha_i &&+{} \bar{\varepsilon}_{(1)i\cdot} + \bar{\varepsilon}_{(2)i\cdot\cdot\cdot}\\
+            \bar{y}_{\cdot\cdot\cdot l} &= \mu &+ \rho_l    &\qquad     &&+{} \bar{\varepsilon}_{(1)\cdot l} + \bar{\varepsilon}_{(2)\cdot\cdot\cdot l}\\
+            \bar{y} = \bar{y}_{\cdot\cdot\cdot\cdot}
+                &= \mu &\qquad &\qquad  &&+{} \bar{\varepsilon}_{(1)\cdot\cdot} + \bar{\varepsilon}_{(2)\cdot\cdot\cdot\cdot}
+        \end{alignat*}
+        であるので
+        \begin{align*}
+            S_{E(1)}
+                &= bc \sum_{i=1}^a \sum_{l=1}^r 
+                    \left( \bar{y}_{i\cdot\cdot l} - \bar{y}_{i\cdot\cdot\cdot} - \bar{y}_{\cdot\cdot\cdot l} + \bar{y}  \right)^2\\
+                &= bc \sum_{i=1}^a \sum_{l=1}^r
+                    \left[ (\varepsilon_{(1)il} - \bar{\varepsilon}_{(1)i\cdot} 
+                        - \bar{\varepsilon}_{(1)\cdot l} + \bar{\varepsilon}_{(1)\cdot\cdot} )
+                    + (\bar{\varepsilon}_{(2)i\cdot\cdot l} - \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} 
+                        - \bar{\varepsilon}_{(2)\cdot\cdot\cdot l} + \bar{\varepsilon}_{(2)\cdot\cdot\cdot\cdot} )
+                     \right]^2\\
+                &= bc \sum_{i=1}^a \sum_{l=1}^r
+                    \left[ \left\{ (\varepsilon_{(1)il} - \bar{\varepsilon}_{(1)i\cdot} )
+                        - ( \bar{\varepsilon}_{(1)\cdot l} - \bar{\varepsilon}_{(1)\cdot\cdot} ) \right\}^2
+                    + \left\{ (\bar{\varepsilon}_{(2)i\cdot\cdot l} - \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} )
+                        - (\bar{\varepsilon}_{(2)\cdot\cdot\cdot l} + \bar{\varepsilon}_{(2)\cdot\cdot\cdot\cdot} ) \right\}^2
+                     \right]
+        \end{align*}
+        なお、3 つめの等号について、cross term は平均の定義から $0$ となる事を用いている。
+        次にこの期待値をとることを考える。
+        \begin{gather*}
+            E [ \varepsilon_{(1)il} - \bar{\varepsilon}_{(1)i\cdot} ] = 0, \qquad
+            E [ \bar{\varepsilon}_{(2)i\cdot\cdot l} - \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} ] = 0,\\
+        \begin{aligned}
+            V [ \varepsilon_{(1)il} - \bar{\varepsilon}_{(1)i\cdot}]
+                &= V [\varepsilon_{(1)il}] + V [\bar{\varepsilon}_{(1)i\cdot}] - 2 \,\mathrm{Cov} (\varepsilon_{(1)il}, \ \bar{\varepsilon}_{(1)i\cdot})\\
+                &= \sigma_{(1)}^2 + \frac{1}{r} \sigma_{(1)}^2
+                    - 2 \cdot \frac{1}{r} \sigma_{(1)}^2
+                = \frac{r - 1}{r} \sigma_{(1)}^2,\\
+            V [\bar{\varepsilon}_{(2)i\cdot\cdot l} - \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} ]
+                &= V [ \bar{\varepsilon}_{(2)i\cdot\cdot l}] + V [ \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} ]
+                    -2 \, \mathrm{Cov} ( \bar{\varepsilon}_{(2)i\cdot\cdot l}, \ \bar{\varepsilon}_{(2)i\cdot\cdot\cdot})\\
+                &= \frac{1}{bc} \sigma_{(2)}^2 + \frac{1}{bcr} \sigma_{(2)}^2 - 2 \cdot \frac{1}{r} \cdot \frac{1}{bc} \sigma_{(2)}^2
+                = \frac{r - 1}{bcr} \sigma_{(2)}^2
+        \end{aligned}
+        \end{gather*}
+        となるから、$i$ の和について公式 \eqref{eq:2024-ouyo-rikou-1-unbiased-var} が適用でき、
+        \begin{align*}
+            E [ S_{E(1)} ]
+                &= bc \sum_{l=1}^r \left[ (a-1) \cdot \frac{r - 1}{r} \sigma_{(1)}^2
+                    + (a - 1) \cdot \frac{r - 1}{bcr} \sigma_{(2)}^2  \right]\\
+                &= (a - 1) bc (r - 1) \sigma_{(1)}^2 + (a - 1)(r - 1) \sigma_{(2)}^2\\
+                &= 12 \sigma_{(1)}^2 + 2 \sigma_{(2)}^2.
+        \end{align*}
+        同様に、
+        \begin{align*}
+            S_A
+                &= bcr \sum_{i=1}^a \left( \bar{y}_{i\cdot\cdot\cdot} - \bar{y}  \right)^2\\
+                &= bcr \sum_{i=1}^a \left[ 
+                    \alpha_i + ( \bar{\varepsilon}_{(1)i\cdot} - \bar{\varepsilon}_{(1)\cdot\cdot})
+                        + ( \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} - \bar{\varepsilon}_{(2)\cdot\cdot\cdot\cdot})
+                 \right]^2\\
+                &= bcr \sum_{i=1}^a \left[ 
+                    \alpha_i^2 + ( \bar{\varepsilon}_{(1)i\cdot} - \bar{\varepsilon}_{(1)\cdot\cdot})^2
+                        + ( \bar{\varepsilon}_{(2)i\cdot\cdot\cdot} - \bar{\varepsilon}_{(2)\cdot\cdot\cdot\cdot})^2
+                 \right]
+        \end{align*}
+        ここでも cross term が 0 になることを用いている。
+        1 次誤差, 2 次誤差はともに期待値が $0$ となるようにモデルを設定できるので、その条件のもとで
+        \begin{equation*}
+            E [ \bar{\varepsilon}_{(1)i\cdot}] = E [ \bar{\varepsilon}_{(2)i\cdot\cdot\cdot}] = 0, \quad
+            V [ \bar{\varepsilon}_{(1)i\cdot}] = \frac{1}{r} \sigma_{(1)}^2, \quad
+            V [ \bar{\varepsilon}_{(2)i\cdot\cdot\cdot}] = \frac{1}{bcr} \sigma_{(2)}^2
+        \end{equation*}
+        であるので、公式 \eqref{eq:2024-ouyo-rikou-1-unbiased-var} を適用して
+        \begin{align*}
+            E[ S_A ]
+                &= bcr \sum_{i=1}^a \alpha_i^2 + bcr \left[
+                    (a - 1) \cdot \frac{1}{r}\sigma_{(1)}^2
+                    + (a - 1) \cdot \frac{1}{bcr} \sigma_{(2)}^2
+                \right]\\
+                &= bcr \sum_{i=1}^a \alpha_i^2
+                    + (a - 1) bc \sigma_{(1)}^2
+                    + (a - 1) \sigma_{(2)}^2\\
+                &= 18 (\alpha_1^2 + \alpha_2^2) + 6 \sigma_{(1)}^2 + \sigma_{(2)}^2.
+        \end{align*}
+
+
+        % Q5
+        \item 与えられた表 1 を用いると、
+        (ア) 11.674, \
+        (イ) 1, \ 
+        (ウ) $11.674 / 1 = 11.674$, \ 
+        (オ) 13.133, \ 
+        (カ) 2, \ 
+        (キ) $13.133 / 2 = 6.5665$, \
+        (エ) $11.674 / 6.5665 \simeq 1.7778$.\\
+        A の $F$ 値 (エ) は自由度 $1, 2$ の $F$ 分布の上側 $5 \%$ 点 $F_{0.05} (1, 2)$ より小さい $F_{0.05} (1, 5) = 6.608$ よりもさらに小さいため、
+        要因 A の効果は有意ではない。
+        
+    \end{enumerate}
+
+    \subsubsection*{コメント}
+    分割法を主題とした、実験計画法についての幅広く深い理解が問われる問題である。\\
+    完全無作為化法、乱塊法、分割法がそれぞれ何をやりたくて何をしているのかについて理解していないと [2] の構造式の立式の時点で苦戦を強いられる。
+    さらに、平方和分割や平均平方の期待値計算などを具体的に経験したことがないと [4] がまるで歯が立たない。
+    分散分析は統計検定の超頻出テーマではあるが、手順の暗記だけでは解かせねぇぜという運営からの圧力を感じさせる。\\
+
+    なお、本問は \cite{nagata:2000} の第 12 章にまったく同じ設定の問題があるので、作問者がこれを参照した可能性が微粒子レベルで存在する。
+    今回の答案や以下のコメントの多くはこの本を参考にしているため、
+    詳細に関してはそちらを参照してほしい。
+
+    \begin{enumerate}
+        \item 分割法 (Split-Plot Design) とは要するにそういう事である。
+        \item 
+        \item 形式的に、交絡 (confounding) とは構造式中に同じ添え字の組が現れている状態のことを指すと思っておけばよい。
+        反復を行わないということは構造式中の添え字 $l$ を潰すということなので、
+        $\mu$ と $\rho_l$、
+        $\alpha_i$ と $\varepsilon_{(1)il}$、
+        $(\alpha\beta\gamma)_{ijk}$ と $\varepsilon_{(2)ijkl}$ がそれぞれ区別できなくなるという事である。
+        なお、ここで得られる式は繰り返しのない 3 元配置の構造式そのものである。
+
+        % Q4
+        \item 難しいね...\\
+
+            平均平方の期待値の計算をしたことがある方や、分散分析における不偏分散の扱いに習熟されている方などは、
+            $E_{(1)}, A$ の平均平方 $MS_{E_{(1)}}, MS_A$ の期待値が
+            \begin{align*}
+                &E [ MS_{E_{(1)}}] 
+                    = \frac{1}{(r - 1)(a - 1)} E [ S_{E_{(1)}}]
+                    = \sigma_{(2)}^2 + bc \sigma_{(1)}^2\\
+                &E [ MS_A ]
+                    = \frac{1}{a - 1} E [S_A]
+                    = \sigma_{(2)}^2 + bc \sigma_{(1)}^2 + bcr \sigma_A^2
+            \end{align*}
+            のようになることが経験的に分かるかもしれない。
+            ここで $\sigma_A^2 = \frac{1}{a - 1} \sum_{i=1}^a \alpha_i^2$ である。
+            実際、平均平方の期待値を含めた分散分析表を作成する際は、
+            いちいち計算したりせずある種 ``経験則'' を使って次々と書き連ねていくことになる。
+            例えば、$\sigma_{(1)}^2$ は A$\times$R から現れるので、残りの B, C の水準の数 $(bc)$ だけ重複して現れる、といった具合である
+             (具体的な手順は \cite{nagata:2000} に詳しく書かれてある。表 \ref{tab:2024-ouyo-rikou-1-anova-table} も参照してみてほしい)。
+            本問の答え自体はこれを使って一瞬で出すことはできるのだが、答案ではこれを計算によって確認する手順を示している。\\
+
+        公式 \eqref{eq:2024-ouyo-rikou-1-unbiased-var} は不偏分散の式にそっくりなのだが、
+        ここでは確率変数 $\{ x_i \}_{i=1}^n$ が必ずしも同一の分布に従っていることまでは要請していないことに注意。
+        どういうことか。
+
+        $E[S_A]$ の計算の途中、答案では誤差の期待値が $0$ であることを勝手に仮定して話を進めたが、
+        今回の問題の設定では必ずしもそうではないらしく $E[ \bar{\varepsilon}_{(1)i\cdot} ] = E [ \bar{\varepsilon}_{(2)i\cdot\cdot\cdot}] = 0$ は常には成り立たない。
+        もしこの問題が、誤差の期待値が $0$ にならないとかいう変態なモデルにおいても成り立つ事を示せという趣旨なのであれば、もう少し工夫をしなければならない。
+        つまり、確率変数 $\{ x_i \}_{i=1}^{n}$ が互いに独立で、それぞれ期待値 $\mu_i$, 分散 $\sigma^2$ の分布に従うとき
+        \begin{equation*}
+            E \left[  
+                \sum_{i=1}^n (x_i - \bar{x}_\cdot)^2
+            \right]
+            = \sum_{i=1}^n (\mu_i - \bar{\mu}_\cdot)^2 + (n - 1) \sigma^2
+        \end{equation*}
+        であることを示して使う必要がある。
+
+        % Q5
+        \item 分散分析表の作成に当たっては、 [4] で与えられた 1 次誤差の平方和 $S_{E(1)}$ の式が、
+        繰り返しのない 4 因子完全無作為化実験とみなした時の A と R の交互作用のそれと同じになることに注意しよう。\\
+        要因 $A$, 1 次誤差 $E(1)$ の自由度をそれぞれ $\phi_A, \phi_{E(1)}$ とすると、
+        要因 $A$ の $F$ 値は、A による効果がないという帰無仮説 (すなわち $\forall i \ \alpha_i = 0$) のもとで
+        自由度 $\phi_A, \phi_{E(1)}$ の $F$ 分布 $F(\phi_A, \phi_{E(1)})$ に従う。
+        % よって、この $F$ 値が $F$ 分布 $F(\phi_A, \phi_{E(1)})$ の上側 $5\%$ 点よりも大きいとき、
+        % $5\%$ 有意で帰無仮説が棄却され、A による効果がないとはいえないと主張できる (効果があると断言するのはやや不適切)。
+        今回の場合は $F$ 値が上側 $5\%$ 点よりも小さいので、帰無仮説を棄却できず、A による効果がないと言ってもおかしくはないという結論になるのである
+        (A による効果がないとまでは断言できない点に注意)。\\
+        % そもそも、平方和分割とかいう分かりやすいのかどうかすらよく分からない操作をあえて行っていたのは、
+        % $F$ 分布というよく知られた分布に従う検定統計量を構成できるからというのが理由の一つである。
+        なお、今回のように要因の効果の有意性を調べるだけなら平方平均 (MS) の期待値まで計算する必要はないのだが、
+        二つの誤差 $\sigma_{(1)}, \sigma_{(2)}$ の不偏推定量を構成する時などには使うため、
+        分散分析表を作るときは $F$ 値の右に平方平均の期待値も書く習慣を付けておくとよい (もしくはそういう分散分析表の書き方もあると知っておくだけでも)。
+        参考までに、表 \ref{tab:2024-ouyo-rikou-1-anova-table} に今回のモデルの分散分析表をすべて埋めたものを示す。
+
+
+        \begin{landscape}
+            
+        \begin{table}[p]
+            \centering
+            \caption{分散分析表}
+            \label{tab:2024-ouyo-rikou-1-anova-table}
+            \begin{tabular}{LLLLLL}
+                \hline\hline
+                \text{Factor} & \text{SS} & \text{df} & \text{MS} & F & E[MS]\\
+                \hline
+                R & SS_R & r-1 & MS_R & MS_R / MS_{E(1)} & \sigma_{(2)}^2 + bc\,\sigma_{(1)}^2 + abc \,\sigma_{R}^2\\
+                A & SS_A & a-1 & MS_A & MS_A / MS_{E(1)} & \sigma_{(2)}^2 + bc\,\sigma_{(1)}^2 + bcr \,\sigma_{A}^2\\
+                E_{(1)} & SS_{E_{(1)}} & (r-1)(a-1) & MS_{E(1)} & MS_{E(1)} / MS_{E(2)} & \sigma_{(2)}^2 + bc \,\sigma_{(1)}^2\\
+                \hline
+                B & SS_B & b-1 & MS_B & MS_B / MS_{E_{(2)}} & \sigma_{(2)}^2 + acr\,\sigma_{B}^2\\
+                C & SS_C & c-1 & MS_C & MS_C / MS_{E_{(2)}} & \sigma_{(2)}^2 + abr\,\sigma_{C}^2\\
+                A \times B & SS_{A\times B} & (a-1)(b-1) & MS_{A\times B} & MS_{A\times B} / MS_{E_{(2)}} & \sigma_{(2)}^2 + cr\,\sigma_{A\times B}^2\\
+                A \times C & SS_{A\times C} & (a-1)(c-1) & MS_{A\times C} & MS_{A\times C} / MS_{E_{(2)}} & \sigma_{(2)}^2 + br\,\sigma_{A\times C}^2\\
+                B \times C & SS_{B\times C} & (b-1)(c-1) & MS_{B\times C} & MS_{B\times C} / MS_{E_{(2)}} & \sigma_{(2)}^2 + ar\,\sigma_{B\times C}^2\\
+                A \times B \times C & SS_{A\times B \times C} & (a-1)(b-1)(c-1) & MS_{A\times B \times C} & MS_{A\times B\times C} / MS_{E_{(2)}} 
+                        & \sigma_{(2)}^2 + r\,\sigma_{A\times B \times C}^2 \\
+                E_{(2)} & SS_{E_{(2)}} & a(bc-1)(r-1) & MS_{E_{(2)}} &  & \sigma_{(2)}^2 \\
+                \hline
+                \text{Total} & SS_T & abcr - 1\\
+                \hline
+            \end{tabular}\\
+            {\footnotesize
+            \begin{gather*} 
+                \sigma_R^2 = \frac{1}{r - 1} \sum_{l=1}^r \rho_l^2, \\
+                \sigma_A^2 = \frac{1}{a - 1} \sum_{i=1}^a \alpha_i^2, \quad
+                    \sigma_B^2 = \frac{1}{b - 1} \sum_{j=1}^b \beta_j^2, \quad
+                    \sigma_C^2 = \frac{1}{c - 1} \sum_{k=1}^c \gamma_k^2,\\
+                \sigma_{A\times B}^2 = \frac{1}{(a - 1)(b - 1)} \sum_{i=1}^a \sum_{j=1}^b (\alpha \beta)_{ij}^2, \quad
+                    \sigma_{A\times C}^2 = \frac{1}{(a - 1)(c - 1)} \sum_{i=1}^a \sum_{k=1}^c (\alpha \gamma)_{ik}^2, \quad
+                    \sigma_{B\times C}^2 = \frac{1}{(b - 1)(c - 1)} \sum_{j=1}^b \sum_{k=1}^c (\beta \gamma)_{jk}^2,\\
+                \sigma_{A\times B\times C}^2
+                    = \frac{1}{(a - 1)(b - 1)(c - 1)} \sum_{i=1}^a \sum_{j=1}^b \sum_{k=1}^c (\alpha\beta\gamma)_{ijk}^2
+            \end{gather*}
+            }
+        \end{table}
+
+        \end{landscape}
+
+
+    \end{enumerate}
+\end{document}

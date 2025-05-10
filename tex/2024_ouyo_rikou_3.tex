@@ -1,0 +1,78 @@
+\documentclass[./main.tex]{subfiles}
+
+\begin{document}
+    \subsubsection*{問3}
+    \addcontentsline{toc}{subsubsection}{問3}
+    \markboth{2024年 統計応用 (理工学) 問3}{2024年 統計応用 (理工学) 問3}
+
+    \begin{enumerate}
+        % Q1
+        \item モデル (1) が弱定常となることは、
+        $\lambda$ の方程式 $\lambda^2 - \phi_1 \lambda - \phi_2 = 0$ の 2 解 $\lambda = \lambda_{\pm}$ が単位円内にあることと同値である。
+        判別式 $D = \phi_1^2 + 4 \phi_2 = - 0.6 < 0$ より虚数解であり、
+        $\vert \lambda \vert^2 = \lambda_{+} \lambda_{-} = -\phi_2 = 0.4 < 1$ となるから確かに弱定常である。
+
+        % Q2
+        \item モデル (1) における $k$ 時点差の自己共分散を $\gamma (k)$ と書くと
+        \begin{align*}
+            \gamma (1)
+                &= \mathrm{Cov} (x_t, \ x_{t+1})\\
+                &= \mathrm{Cov} (x_t, \ \phi_1 x_t + \phi_2 x_{t-1} + \varepsilon_{t+1})\\
+                &= \phi_1 \gamma (0) + \phi_2 \gamma (1) + \mathrm{Cov} (x_t, \varepsilon_{t+1})
+        \end{align*}
+    \end{enumerate}
+
+    \subsubsection*{コメント}
+    どこまでを既知としてよいかよく分からない時系列分析はーじまーるよー。
+    今回は AR 過程です。
+    \begin{enumerate}
+        \item 弱定常の定義は \Circled{1} 二乗可積分である \ \Circled{2} 期待値が時点によらない \ \Circled{3} 任意の時点差の自己共分散が時点によらない \ 
+        である。
+        そして今回のモデル (1) の場合、これが弱定常になることは
+        $\lambda$ の方程式 $\lambda^2 - \phi_1 \lambda - \phi_2 = 0$ の解がすべて単位円内にあることと同値になるのだが、
+        これをちゃんと示すのは実は結構難しい。
+        ここでその理屈を少しおさらいしておこう。
+        なお、以下で述べるほぼすべては \cite{hamilton1994series} に倣っているので、不明点があればそちらを参照願いたい。
+
+        簡単のためにまずは $\text{AR} (1)$ 過程 $x_t = \phi_1 x_{t - 1} + \varepsilon_t$ について考えよう。
+        lag operator $L$ を $L x_t = x_{t-1}$ となるように定めると、$\text{AR}(1)$ 過程は次のように書ける。
+        \begin{equation}\label{eq:ar1-1}
+            (1 - \phi_1 L) x_t = \varepsilon_t
+        \end{equation}
+        この式の両辺に左から $(1 + \phi_1 L + \phi_1^2 L^2 + \dots + \phi_1^t L^t)$ を掛けてみる。
+        右辺はそのまま書き下し、左辺は整理すると次のようになる
+        \footnote{等比数列の和の公式を導いた時のことを思い出そう。いわゆる「ずらし引き」である。}。
+        \begin{equation*}
+            (1 - \phi_1^{t + 1} L^{t+1}) x_t
+                = (1 + \phi_1 L + \phi_1^2 L^2 + \dots + \phi_1^t L^t) \varepsilon_t
+        \end{equation*}
+        左辺を展開すると
+        \begin{equation}\label{eq:ar1-2}
+            x_t - \phi_1^{t + 1} x_{-1}
+                = (1 + \phi_1 L + \phi_1^2 L^2 + \dots + \phi_1^t L^t) \varepsilon_t
+                % = \varepsilon_t + \phi_1 \varepsilon_{t-1} + \phi_1^2 \varepsilon_{t-2} + \dots + \phi_1^t \varepsilon_0
+        \end{equation}
+        ここで、左辺に変な項 $\phi_1^{t+1} x_{-1}$ が出てしまったが、
+        もし仮に $x_{-1}$ が有限で、かつ $|\phi_1| < 1$ であればこの項は $t \to \infty$ で消えてくれ、
+        \begin{equation}\label{eq:ar1-3}
+            x_t = (1 + \phi_1 L + \phi_1^2 L^2 + \cdots) \varepsilon_t
+            \qquad (\text{if} \ |\phi_1| < 1)
+        \end{equation}
+        のように書けるだろう。
+        \eqref{eq:ar1-1} と比較すると、\eqref{eq:ar1-3} の右辺の $\varepsilon_t$ に付いている作用素は $(1 -\phi_1 L)$ の逆演算と解釈でき、
+        \begin{equation*}
+            (1 - \phi_1 L)^{-1}
+                = 1 + \phi_1 L + \phi_1^2 L^2 + \cdots
+                \qquad (\text{if} \ |\phi_1| < 1)
+        \end{equation*}
+        のように書けることが分かる。
+
+
+
+        % 最近の本で弱定常性周辺をしっかり書いてある本の一つに \cite{shiraishi:2022} があるので、一度目を通しておくとよいだろう。
+
+        % Q2
+        \item 要するに、ユール・ウォーカー方程式を書き下せという問題である。
+    \end{enumerate}
+
+\end{document}

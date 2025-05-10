@@ -2,11 +2,51 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}       % \mathbb{}
 \usepackage{amssymb}        % \therefore
+\usepackage{mathtools}      % \coloneq
 \usepackage{ulem}           % \sout{}
 \usepackage{fancyhdr}       % \pagestyle{fancy}
+\usepackage{lscape}         % landscape 環境, 表の 90° 回転
+\usepackage{amstext}        % \text
+\usepackage{array}          % \newcolumntype
+\usepackage{circledsteps}   % Circled
+\usepackage{framed}
+
+\usepackage{textgreek}    % ギリシャ文字
+\usepackage{upgreek}      % ギリシャ文字
+
+\usepackage{amsthm}
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定義}
+\newtheorem{property}{性質}
+
+
+
+% \usepackage{bookmark}
+% \usepackage{cite}
+
+% \usepackage{makeidx}      % 索引
+% \makeindex
+\usepackage{imakeidx}      % 索引
+\makeindex[intoc]
+
+\usepackage{url}
+\usepackage[style=authoryear, url=false, isbn=false]{biblatex}
+\DeclareFieldFormat{series}{}   % series を消す
+\addbibresource{references.bib}
+
+\newcolumntype{L}{>{$}l<{$}}
+
 
 \usepackage{tikz}   % tikz
-% \usepackage{pgfplots}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}   % pgflplots のバージョン指定
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows.meta}
+
+% https://tex.stackexchange.com/questions/325211/fillbetween-doesnt-fill-entire-area-under-graph
+\pgfmathdeclarefunction{gauss}{2}{%
+    \pgfmathparse{1/(sqrt(2*pi*#2)) * exp(-( x - #1)^2/ (2*#2))}%
+}
 
 \usepackage{hyperref}     % \hypersetup
 
