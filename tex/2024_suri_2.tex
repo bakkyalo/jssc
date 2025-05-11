@@ -1,0 +1,116 @@
+\documentclass[./main.tex]{subfiles}
+
+
+\begin{document}
+    \subsubsection*{問2}
+    \addcontentsline{toc}{subsubsection}{問2}
+    \markboth{2024年 統計数理 問2}{2024年 統計数理 問2}
+
+    \begin{enumerate}
+        % Q1
+        \item $F(r) = P(R \leq r)
+            = \begin{cases}
+                0 & (r < 0)\\
+                (\pi r^2) / (\pi \theta^2) & (0 \leq r \leq \theta)\\
+                1 & (r > \theta)
+            \end{cases}
+            = \begin{cases}
+                0 & (r < 0)\\
+                r^2 / \theta^2 & (0 \leq r \leq \theta)\\
+                1 & (r > \theta)
+            \end{cases}$,\\
+        
+        $f(r) = \dfrac{d}{dr} F(r)
+            = \begin{cases}
+                2r/\theta^2 & (0 \leq r \leq \theta )\\
+                0 & \text{(otherwise)}
+            \end{cases}$.
+        
+        % Q2
+        \item $\displaystyle E[R] = \int_0^\theta r \cdot f(r) \, dr
+            = \frac{2}{\theta^2} \int_0^\theta r^2 \, dr
+            = \frac{2}{3} \theta$, \quad 
+        $\displaystyle E[R^2] = \int_0^\theta r^2 \cdot f(r) \, dr
+            = \frac{2}{\theta^2} \int_0^\theta r^3 \, dr
+            = \frac{1}{2} \theta^2$\\
+        $\therefore \ V[R] = E[R^2] - E[R]^2 = \dfrac{1}{18} \theta^2$.
+
+        % Q3
+        \item $R_{(n)} \leq r$ であるのは $R_1, \dots, R_n$ すべてが $r$ 以下になる場合であるので
+        \begin{equation*}
+            G(r) = P(R_{(n)} \leq r) = \{ F(r) \}^n = \left( \frac{r}{\theta}\right)^{2n}, \qquad
+            g(r) = \frac{d}{dr} G(r)
+                = \frac{2n}{\theta^{2n}} r^{2n - 1}
+        \end{equation*}
+
+        % Q4
+        \item $(0 \leq) \  r_1, \dots, r_n \ (\leq \theta)$ を $R_1, \dots, R_n$ の実現値とすると、尤度関数 $L(\theta)$ は
+        \begin{equation*}
+            L(\theta)
+                = P (R_1 = r_1, \ \dots, R_n = r_n)
+                = \prod_{i=1}^n f(r_i)
+                = \begin{cases}
+                \displaystyle \left( \frac{2}{\theta^{2}} \right)^n \prod_{i=1}^n {r_i} & (0 \leq r_i \leq \theta \quad \text{for} \ \forall i)\\
+                0 & (\text{otherwise})
+                \end{cases}
+        \end{equation*}
+        これを最大にする $\theta$ を求めて、$\hat{\theta}_{ML} = \max_i \{ R_i \} = R_{(n)}$.
+
+        % Q5
+        \item $\displaystyle E[\hat{\theta}_{ML}]  = E[R_{(n)}] 
+            = \int_0^\theta r g(r) \, dr = \frac{2n}{\theta^{2n}} \int_0^\theta r^{2n} \, dr
+            = \frac{2n}{2n + 1} \theta$ より、$\hat{\theta}_U = a \hat{\theta}_{ML} + b$ の不偏性条件は
+        \begin{equation*}
+           \theta = a \cdot \frac{2n}{2n + 1} \theta + b
+        \end{equation*}
+        これが $\theta$ について恒等的に成立するためには $a = \dfrac{2n + 1}{2n}, \ b = 0$ が必要十分。一方、
+        \begin{equation*}
+        E[R_{(n)}^2] = \int_0^\theta r^2 g(r) \, dr 
+            = \frac{2n}{\theta^{2n}} \int_0^\theta r^{2n+1} \, dr
+            = \frac{n}{n + 1} \theta^2
+        \end{equation*}
+        であるから
+        \begin{equation*}
+            V [\hat{\theta}_{ML}]
+                = E[ R_{(n)}^2 ] - E[ R_{(n)}]^2
+                = \frac{n}{n+1}\theta^2 - \left(  \frac{2n}{2n + 1} \theta \right)^2
+                = \frac{n}{(n+1)(2n+1)^2} \theta^2
+        \end{equation*}
+        よって、$V[\hat{\theta}_U] = a^2 V [\hat{\theta}_{ML}]
+            = \left( \dfrac{2n + 1}{2n} \right)^2 \cdot \dfrac{n}{(n+1)(2n+1)^2} \theta^2
+            = \dfrac{1}{4n (n+1)} \theta^2$.
+    \end{enumerate}
+
+
+
+
+    \subsubsection*{コメント}
+    $\theta$ が半径だったり、[1] や [2] では $0 \leq r \leq \theta$ 以外も言及しなければいけなかったり、
+    本質的でないところで嫌らしい問題でした。
+    \begin{enumerate}
+        % Q1
+        \item 一瞬変数変換の問題に見えるが、図形的に解釈すればすぐに求まる問題。
+        半径 $\theta$ の円のうち、半径 $r$ 以下の部分の割合は？という問題になります。面積比ですね。
+        こういう問題は定義域をしっかり考えないといけないのが嫌です。% [4] でもまた感じます。
+        \item これはただやるだけ。
+        ヤコビアンの $r$ 倍が掛かるのでは？とか思わないでください。面積が欲しい訳ではないので。
+        % Q3
+        \item ここから急に $0 \leq r \leq \theta$ の場合だけ考えれば良くなります。
+        最大統計量\index{最大統計量}は順序統計量の中でも一番分かりやすくていいですね。
+
+
+        \item ここからは $\theta$ についての関数として見ていくことに注意してください。\\
+        最尤推定量と聞いて脳死で微分し始めた人 (筆者です) 出直してきてください。
+        あくまで尤度を最大化するのが目的であって、微分することが目的ではなかったはずです。
+        明らかに単調減少な関数を微分するなど何がやりたいんですかねって感じです。
+        大事なことは尤度関数が $0$ にならないよう注意しながら $\theta$ をどれだけ小さくできるかということであって、
+        それは $R_1, \dots, R_n$ の最大値ですねという話です。
+        上限値が未知の一様分布 $U(0, \theta)$ の最尤推定量を求める時と同じですね。
+
+        \item ただ、このようにして求まった $\hat{\theta}_{ML}$ は不偏ではなく、
+        期待値が上限値 $\theta$ よりも若干小さくなってしまいます。
+        なので、推定量が不偏になるように微調整してやろうというのがこの問題の趣旨になります。
+        これも一様分布の時と同じですね。
+    \end{enumerate}
+
+\end{document}
