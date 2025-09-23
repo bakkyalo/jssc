@@ -105,6 +105,7 @@
 
         
         % 具体的には、確率変数 $X$ の確率密度関数 $f(x; \theta)$ に対し、フィッシャー情報量 $I (\theta)$ は次のように定義される。
+        以下で考えるのは、分布 $f(X; \theta)$ から得たサンプル $X$ からパラメーター $\theta$ を推測するような状況である。
         これから具体的にフィッシャー情報量 $I (\theta)$ を定義していくが、
         それに先立ってまずスコア関数 $S (X; \theta)$ というものを定義して、その性質を確認しておく。
         なお、以下の \textbf{正則性条件} (regularity conditions) は無条件に認めるものとする。
@@ -131,10 +132,14 @@
                 = \frac{\partial}{\partial \theta} \int f(x; \theta) \, dx
                 = 0.$
         \end{proof}
+        そして、スコア関数の分散をフィッシャー情報量と定義する。
+        いま $E [S(X; \theta)] = 0$ を示したので、 
+        これはスコア関数の 2 乗の期待値と等しい。
         \begin{definition}[フィッシャー情報量]
-            スコア関数の分散をフィッシャー情報量 $I (\theta)$ と定める。すなわち
+            正則性条件の下、スコア関数の分散をフィッシャー情報量 $I (\theta)$ と定める。すなわち
             \begin{equation}\label{eq:2024-suri-1-fisher-def1}
                 I (\theta) = V[ S(X; \theta) ] 
+                    = E [ S(X; \theta)^2 ]
                     = E \left[ \left( \frac{\partial \log f(X; \theta) }{\partial \theta} \right)^2  \right]
             \end{equation}
         \end{definition}
@@ -162,7 +167,9 @@
 
         曲線の 2 階微分は曲率に対応しているため
         \footnote{曲線を弧長パラメーターで微分すると接線ベクトルになり、さらに微分すると (主) 法線ベクトルのスカラー倍になる。
-        その倍率のことを曲率と呼ぶのであった。}、
+        その倍率のことを曲率と呼ぶのであった。
+        材料力学ではりを勉強したことがある方なら、
+        微小変形においてたわみの 1 階微分がたわみ角、2 階微分が曲率になるということを習ったかもしれない。}、
         この表現 \eqref{eq:2024-suri-1-fisher-def2} によって $I (\theta)$ が対数尤度の曲率の期待値を表していると解釈できる。
         言い換えると、$I(\theta)$ が大きいほど尤度関数が「鋭い」のである。
         実用的には、\eqref{eq:2024-suri-1-fisher-def1}, \eqref{eq:2024-suri-1-fisher-def2} のうち計算しやすそうな方を使えばよい。
@@ -183,10 +190,10 @@
         \begin{proof}
             \small
             不偏推定量 $\hat{\theta}$ とスコア関数 $S(X; \theta)$ につき
-            \begin{equation*}
+            \begin{equation}\label{eq:2024-suri-1-cauchy-schwarz}
                 V[\hat{\theta}] \cdot V [S (X; \theta)]
                     \geq \mathrm{Cov} (\hat{\theta}, S(X; \theta) )
-            \end{equation*}
+            \end{equation}
             であり、左辺の $V[S(X; \theta)]$ は $I (\theta)$ そのもの、
             右辺は $E[\hat{\theta}] = \theta$ と $E [ S(X; \theta)] = 0$ から
             \begin{equation*}
@@ -254,8 +261,8 @@
         さて、$V [\hat{\beta}_{ML}]$ と $V [\tilde{\beta}]$ の大小だが、
         $\hat{\beta}_{ML}$ がクラメール・ラオの下限を達成するからといってもよいし、
         コーシー・シュワルツの不等式などを使って示しても良い。
-        そもそも、クラメール・ラオの不等式\eqref{eq:2024-suri-1-cramer-rao} を示す際に使う分散と共分散の不等式はコーシー・シュワルツの不等式から得られる。
-        % ここで一度導出過程を確認しておくと、$S (X; \theta) = \frac{\partial \log f(X; \theta)}{\partial \theta}$ をスコア関数として
+        そもそも、クラメール・ラオの不等式\eqref{eq:2024-suri-1-cramer-rao} を示す際に使う
+        分散と共分散の不等式 \eqref{eq:2024-suri-1-cauchy-schwarz} がコーシー・シュワルツの不等式そのものである。
 
 
         % \begin{figure}[tb]
