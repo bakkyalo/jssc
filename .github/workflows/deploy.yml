@@ -1,0 +1,57 @@
+name: LaTeX to HTML and Deplyoy to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+
+  # GitHub Actions GUI
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # issues: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up TeX Live
+        uses: xu-cheng/latex-action@v2
+        with:
+          texlive_version: '2024'
+          extra_packages: upmendex,biber,tex4ht
+
+      - name: Convert LaTeX to HTML with tex4ht
+        working-directory: ./tex
+        run: |
+          biber main
+          upmendex -g -s jssc_index.ist main.idx -o main.ind
+
+          mk4ht lualatex main.tex "html,o2" "" "" ""
+
+          mkdir -p html
+          mv main.html html/index.html
+          mv main*.css html/ || true
+          mv main*{.png,jpg,gif} html/ || true
+
+      # GitHub official action
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./tex/html
+      
+      - name: Deploy to GitHub Pages
+        id: deploy-pages
+        uses: actions/deploy-pages@v4
