@@ -5,6 +5,10 @@
 ## ビルド
 TeXLive 2024 があれば大丈夫だと思います
 
+## LaTeX の方針
+- LuaLaTeX (`ltjsarticle`)
+- BibLaTeX (biber)
+- upmendex (?)
 
 ## 答案作成状況
 

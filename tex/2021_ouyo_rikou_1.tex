@@ -1,0 +1,26 @@
+\documentclass[./main.tex]{subfiles}
+
+\begin{document}
+    \subsubsection*{問3}
+    \addcontentsline{toc}{subsubsection}{問3}
+    \markboth{2021年 統計応用 (理工学) 問3}{2021年 統計応用 (理工学) 問3}
+
+    \begin{enumerate}
+        % Q1
+        \item $P (Y_i = y_i \vert \alpha, \beta)
+            = \Psi (\alpha + \beta x_i)^{y_i} \{ 1 - \Psi(\alpha + \beta x_i) \}^{1 - y_i}$
+            であるから、尤度関数 $L(\alpha, \beta)$ は
+        \begin{equation*}
+            L(\alpha, \beta)
+                = \prod_{i=1}^n \Psi (\alpha + \beta x_i)^{y_i} \{ 1 - \Psi(\alpha + \beta x_i) \}^{1 - y_i}
+        \end{equation*}
+
+        % Q2
+        \item $P(Y_i = 1 \vert \alpha, \beta)
+            = P(Z_i \geq \vert \alpha, \beta)
+            = P \left( \frac{Z_i - \mu_i}{1} \geq - \mu_i \vert \alpha, \beta\right)
+            = 1 - \Phi (-\mu_i)
+            = \Phi (\mu_i)$
+    \end{enumerate}
+
+\end{document}
