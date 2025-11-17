@@ -37,12 +37,14 @@ jobs:
 
             cd ./tex
 
-            lualatex main.tex
+            # lualatex main.tex
 
-            biber main
-            upmendex -g -s jssc_index.ist main.idx -o main.ind
+            # biber main
+            # upmendex -g -s jssc_index.ist main.idx -o main.ind
+            latexmk main.tex
 
-            mk4ht lualatex main.tex "html,o2" "" "" ""
+            # mk4ht lualatex main.tex "html,o2" "" "" ""
+            mk4ht htlatex main.tex "html,o2" "" "" ""
 
             mkdir -p html
             mv main.html html/index.html
