@@ -29,10 +29,10 @@ jobs:
         uses: xu-cheng/texlive-action@v3
         with:
           texlive_version: 2024
-          scheme: small
+          # scheme: small
           # extra_packages: upmendex,biber,tex4ht
-          run : |
-            tlmgr install luatexja-fontspec biber tex4ht upmendex collection-fontsrecommended
+          # run : |
+          #   tlmgr install luatexja-fontspec biber tex4ht upmendex collection-fontsrecommended
 
 
       - name: Convert LaTeX to HTML with tex4ht
