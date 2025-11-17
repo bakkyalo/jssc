@@ -25,11 +25,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up TeX Live
-        uses: xu-cheng/latex-action@v2
+      - name: Set up TeX Live Environment
+        uses: u-py/action-setup-texlive@v2
         with:
-          texlive_version: '2024'
-          extra_packages: upmendex,biber,tex4ht
+          packages : 'lualatex,biber,upmendex,tex4ht'
+          # texlive_version: '2024'
+          # extra_packages: upmendex,biber,tex4ht
 
       - name: Convert LaTeX to HTML with tex4ht
         working-directory: ./tex
