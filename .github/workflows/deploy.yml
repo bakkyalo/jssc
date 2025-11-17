@@ -35,7 +35,10 @@ jobs:
             tlmgr update --self
             tlmgr install luatexja biber tex4ht upmendex collection-fontsrecommended
 
-            cd tex
+            cd ./tex
+
+            lualatex main.tex
+
             biber main
             upmendex -g -s jssc_index.ist main.idx -o main.ind
 
