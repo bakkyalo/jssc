@@ -32,7 +32,8 @@ jobs:
           # scheme: small
           # extra_packages: upmendex,biber,tex4ht
           run : |
-            tlmgr install luatexja-fontspec biber tex4ht upmendex collection-fontsrecommended
+            tlmgr update --self
+            tlmgr install luatexja biber tex4ht upmendex collection-fontsrecommended
 
 
       - name: Convert LaTeX to HTML with tex4ht
