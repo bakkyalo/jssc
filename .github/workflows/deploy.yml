@@ -28,7 +28,7 @@ jobs:
       - name: Set up TeX Live Environment
         uses: xu-cheng/texlive-action@v3
         with:
-          texlive_version: 2024
+          texlive_version: latest
           # scheme: small
           # extra_packages: upmendex,biber,tex4ht
           run : |
