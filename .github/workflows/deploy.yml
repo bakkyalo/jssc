@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - ci
 
   # GitHub Actions GUI
   workflow_dispatch:
