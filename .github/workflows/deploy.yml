@@ -29,7 +29,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           texlive_version: 2024
-          extra_packages: upmendex,biber,tex4ht
+          root_file: ./tex/main.tex
+          # extra_packages: upmendex,biber,tex4ht
 
       - name: Convert LaTeX to HTML with tex4ht
         working-directory: ./tex
