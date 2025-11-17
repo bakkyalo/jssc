@@ -35,19 +35,20 @@ jobs:
             tlmgr update --self
             tlmgr install luatexja biber tex4ht upmendex collection-fontsrecommended
 
+            cd tex
+            biber main
+            upmendex -g -s jssc_index.ist main.idx -o main.ind
 
-      - name: Convert LaTeX to HTML with tex4ht
-        working-directory: ./tex
-        run: |
-          biber main
-          upmendex -g -s jssc_index.ist main.idx -o main.ind
+            mk4ht lualatex main.tex "html,o2" "" "" ""
 
-          mk4ht lualatex main.tex "html,o2" "" "" ""
+            mkdir -p html
+            mv main.html html/index.html
+            mv main*.css html/ || true
+            mv main*{.png,jpg,gif} html/ || true
 
-          mkdir -p html
-          mv main.html html/index.html
-          mv main*.css html/ || true
-          mv main*{.png,jpg,gif} html/ || true
+      # - name: Convert LaTeX to HTML with tex4ht
+      #   working-directory: ./tex
+      #   run: |
 
       # GitHub official action
       - name: Setup Pages
