@@ -2,14 +2,20 @@
 
 統計検定 1 級の解答書等
 
-## ビルド
-TeXLive 2024 があれば大丈夫だと思います
 
 ## LaTeX の方針
 - LuaLaTeX (`ltjsarticle`)
 - BibLaTeX (biber)
 - upmendex (?)
 
+## ビルド
+TeXLive 2024 があれば大丈夫だと思います
+
+```sh
+cd tex
+latexmk -C
+latexmk main.tex
+```
 ## 答案作成状況
 
 x... 未着手,  △...未完成,  &#x2714;...大方済
