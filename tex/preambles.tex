@@ -10,6 +10,7 @@
 \usepackage{array}          % \newcolumntype
 \usepackage{circledsteps}   % Circled
 \usepackage{framed}
+\usepackage{bm}
 
 \usepackage{textgreek}    % ギリシャ文字
 \usepackage{upgreek}      % ギリシャ文字
@@ -40,7 +41,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}   % pgflplots のバージョン指定
 \usepgfplotslibrary{groupplots}
-\usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta, matrix}
 
 % https://tex.stackexchange.com/questions/325211/fillbetween-doesnt-fill-entire-area-under-graph
 \pgfmathdeclarefunction{gauss}{2}{%
@@ -57,11 +58,44 @@
 \fancyhead[OL]{}            % Odd Left
 \fancyhead[OR]{ \leftmark } % Odd Right
 
-\renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+% \renewcommand{\sectionmark}[1]{\markboth{#1}{#1}}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
 
 % enumerate の番号の振り方を変える
 \renewcommand{\labelenumi}{[\arabic{enumi}]}
 \renewcommand{\labelenumii}{[\arabic{enumi}-\arabic{enumii}]}
+
+
+% expl3 -------------------------------------
+\ExplSyntaxOn
+\tl_new:N \g_exam_year_tl
+\tl_new:N \g_exam_subject_tl
+
+% 年度 (ExamYear)
+\NewDocumentCommand{\ExamYear}{m}{
+  \tl_gset:Nn \g_exam_year_tl {#1}
+  \section*{#1}
+  \addcontentsline{toc}{section}{#1}
+}
+% 科目 (ExamSubject)
+\NewDocumentCommand{\ExamSubject}{m}{
+  \tl_gset:Nn \g_exam_subject_tl {#1}
+  \subsection*{#1}
+  \addcontentsline{toc}{subsection}{#1}
+}
+% 問 (ExamQuestion)
+\NewDocumentCommand{\ExamQuestion}{m}{
+  \subsubsection*{#1}
+  \addcontentsline{toc}{subsubsection}{#1}
+  \markboth{\g_exam_year_tl \space \g_exam_subject_tl \space #1}{}
+}
+% コメント (ExamComment)
+\NewDocumentCommand{\ExamComment}{}{
+  \subsubsection*{コメント}
+}
+\ExplSyntaxOff
+% ------------------------------------------
 
 
 
@@ -75,7 +109,7 @@
   bookmarkstype = toc,
   % リンクカラーの設定
   colorlinks = false,				% カラーリンク
-  anchorcolor = brack,			% アンカーテキストの色指定（デフォルトはblack）
+  anchorcolor = black,			% アンカーテキストの色指定（デフォルトはblack）
   linkcolor = red,				% 内部参照リンク用のカラー
   linkbordercolor = {1 0 0}, 		% RGBリンクを囲むボックスの色（デフォルトは1 0 0）
   citecolor = green,				% 文献参照用リンク用のカラー 
